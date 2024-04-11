@@ -28,7 +28,8 @@ class _InitialQuestionsGolfPageState extends State<InitialQuestionsGolfPage> {
       )
     ]);
     ChatCTResponse? response = await _openAI.onChatCompletion(request: request);
-    print(response);
+    String result = response!.choices.first.message!.content.trim();
+    print(result);
   }
 
   Future<bool> _hasProfile() async {
