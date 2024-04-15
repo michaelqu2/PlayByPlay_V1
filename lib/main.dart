@@ -3,6 +3,7 @@ import '/main.dart';
 import '/profile.dart';
 import '/home.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import '/logging_display.dart';
 
 Future <void> main() async{
   await dotenv.load(fileName:'assets/.env.example');
@@ -44,7 +45,9 @@ class _RoutePageState extends State<RoutePage> {
   int pageIndex = 0;
   List <Widget> pages = [
     const MyHomePage(),
+    const LoggingDisplayPage(),
     const ProfilePage(),
+
   ];
 
   @override
@@ -57,6 +60,10 @@ class _RoutePageState extends State<RoutePage> {
             BottomNavigationBarItem(icon: Icon(Icons.home),
               backgroundColor: Colors.white,
               label: "home",
+            ),
+            BottomNavigationBarItem(icon: Icon(Icons.add),
+              label: "logging",
+              backgroundColor: Colors.white,
             ),
             BottomNavigationBarItem(icon: Icon(Icons.person),
               label: "profile",
