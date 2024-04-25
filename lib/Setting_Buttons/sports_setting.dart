@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:app_v1/setting.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SportsSettingPage extends StatefulWidget {
   const SportsSettingPage({super.key});
@@ -9,9 +10,46 @@ class SportsSettingPage extends StatefulWidget {
 }
 
 class _SportsSettingPageState extends State<SportsSettingPage> {
+  List<TextEditingController> sportsTC = [TextEditingController()];
 
-  String sports_choice = 'other';
-  var s_choices = ['golf', 'soccer', 'track', 'other'];
+  Future<void> loadUserInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      sportsTC = (prefs.getStringList('sports') ?? []).map((sport) {
+        return TextEditingController(text: sport);
+      }).toList();
+    });
+  }
+
+  Future<void> saveUserInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setStringList(
+      'sports',
+      sportsTC
+          .map((controller) => controller.text.trim())
+          .where((sport) => sport.isNotEmpty)
+          .toList(),
+    );
+  }
+
+  void AddSportField(){
+    setState(() {
+      sportsTC.add(TextEditingController());
+    });
+  }
+  void RemoveSportField(int index){
+    setState(() {
+      if(sportsTC.length>1){
+        sportsTC.removeAt(index);
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadUserInfo();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +67,6 @@ class _SportsSettingPageState extends State<SportsSettingPage> {
                 height: 100,
                 child: Center(
                   child: DropdownButton(
-
-
                     value: sports_choice,
                     items: s_choices.map((String item) {
                       return DropdownMenuItem(value: item, child: Text(item));
@@ -40,7 +76,6 @@ class _SportsSettingPageState extends State<SportsSettingPage> {
                         sports_choice = newValue!;
                       });
                     },
-
                   ),
                 ),
               ),
@@ -53,19 +88,17 @@ class _SportsSettingPageState extends State<SportsSettingPage> {
                 child: Center(
                   child: DropdownMenu<String>(
                     width: 300,
-
-
                     initialSelection: sports_choice,
-                    onSelected: (String? value){
+                    onSelected: (String? value) {
                       setState(() {
                         sports_choice = value!;
                       });
                     },
-                    dropdownMenuEntries: s_choices.map<DropdownMenuEntry<String>>((String value) {
-                      return DropdownMenuEntry<String>(value: value, label: value);
+                    dropdownMenuEntries: s_choices
+                        .map<DropdownMenuEntry<String>>((String value) {
+                      return DropdownMenuEntry<String>(
+                          value: value, label: value);
                     }).toList(),
-                    
-
                   ),
                 ),
               ),

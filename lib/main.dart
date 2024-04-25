@@ -4,6 +4,7 @@ import '/profile.dart';
 import '/home.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '/logging_display.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future <void> main() async{
   await dotenv.load(fileName:'assets/.env.example');
@@ -42,6 +43,14 @@ class RoutePage extends StatefulWidget {
 
 class _RoutePageState extends State<RoutePage> {
 
+  Future<void> _loadInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String jsonlogs = prefs.getString(widget.selected_sports) ?? '[]';
+    setState(() {
+      if(prefs.containsKey('sports'));
+    });
+  }
+
   int pageIndex = 0;
   List <Widget> pages = [
     const MyHomePage(),
@@ -49,6 +58,12 @@ class _RoutePageState extends State<RoutePage> {
     const ProfilePage(),
 
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadInfo();
+  }
 
   @override
   Widget build(BuildContext context) {
