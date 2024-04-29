@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import '/profile.dart';
 import '/initial_questions_golf.dart';
-import '/main.dart';
+import '/route.dart';
 import 'package:app_v1/logging_record.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import '/main.dart';
+import '/route.dart';
 import '/profile.dart';
 import '/home.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '/logging_display.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future <void> main() async{
-  await dotenv.load(fileName:'assets/.env.example');
+Future<void> main() async {
+  await dotenv.load(fileName: 'assets/.env.example');
   runApp(const MyApp());
 }
 
@@ -21,10 +21,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.grey),
         primaryTextTheme: const TextTheme(
-          bodyMedium: TextStyle(
-            color: Colors.blue,
-          )
-        ),
+            bodyMedium: TextStyle(
+          color: Colors.blue,
+        )),
         useMaterial3: true,
       ),
       home: const RoutePage(),
@@ -32,68 +31,4 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class RoutePage extends StatefulWidget {
-  const RoutePage({super.key});
 
-
-
-  @override
-  State<RoutePage> createState() => _RoutePageState();
-}
-
-class _RoutePageState extends State<RoutePage> {
-
-  Future<void> _loadInfo() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String jsonlogs = prefs.getString(widget.selected_sports) ?? '[]';
-    setState(() {
-      if(prefs.containsKey('sports'));
-    });
-  }
-
-  int pageIndex = 0;
-  List <Widget> pages = [
-    const MyHomePage(),
-    const LoggingDisplayPage(),
-    const ProfilePage(),
-
-  ];
-
-  @override
-  void initState() {
-    super.initState();
-    _loadInfo();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: pages [pageIndex],
-      bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: const Color.fromRGBO(50, 50, 50, 1),
-          items: const < BottomNavigationBarItem> [
-            BottomNavigationBarItem(icon: Icon(Icons.home),
-              backgroundColor: Colors.white,
-              label: "home",
-            ),
-            BottomNavigationBarItem(icon: Icon(Icons.add),
-              label: "logging",
-              backgroundColor: Colors.white,
-            ),
-            BottomNavigationBarItem(icon: Icon(Icons.person),
-              label: "profile",
-              backgroundColor: Colors.white,
-            ),
-          ],
-          currentIndex: pageIndex,
-          selectedItemColor:const Color.fromRGBO(0, 230, 220, 1),
-          onTap: (int index){
-            setState(() {
-              pageIndex = index;
-            });
-          }
-      ),
-
-    );
-  }
-}

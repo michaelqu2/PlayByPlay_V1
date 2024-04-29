@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '/main.dart';
+import '/route.dart';
 import '/profile.dart';
 import 'package:app_v1/Setting_Buttons/sports_setting.dart';
 import 'package:app_v1/Setting_Buttons/birthday_setting.dart';
