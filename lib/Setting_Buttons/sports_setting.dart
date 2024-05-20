@@ -62,34 +62,40 @@ class _SportsSettingPageState extends State<SportsSettingPage> {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.only(top: 20),
-            child: Column(children: [
-              const Text("Sport"),
-              for (int i = 0; i < sportsTC.length; i++)
-                Padding(
-                  padding: const EdgeInsets.only(
-                      top: 8.0, left: 8.0, right: 8.0, bottom: 8.0),
-                  child: Row(
-                    children: [
-                      IconButton(
-                          onPressed: AddSportField,
-                          icon: const Icon(Icons.add)),
-                      IconButton(
-                          onPressed: () => RemoveSportField(i),
-                          icon: const Icon(Icons.delete)),
-                      Expanded(
-                        child: TextField(
-                          keyboardType: TextInputType.text,
-                          decoration: InputDecoration(
-                            counterText: ' ',
-                            hintText: "Sport ${i + 1}",
+            child: Card(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Column(children: [
+                  const Text("Sport"),
+                  for (int i = 0; i < sportsTC.length; i++)
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          top: 8.0, left: 8.0, right: 8.0, bottom: 8.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              keyboardType: TextInputType.text,
+                              decoration: InputDecoration(
+                                  counterText: ' ',
+                                  hintText: "Sport ${i + 1}",
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20))),
+                              controller: sportsTC[i],
+                            ),
                           ),
-                          controller: sportsTC[i],
-                        ),
-                      )
-                    ],
-                  ),
-                )
-            ]),
+                          IconButton(
+                              onPressed: AddSportField,
+                              icon: const Icon(Icons.add)),
+                          IconButton(
+                              onPressed: () => RemoveSportField(i),
+                              icon: const Icon(Icons.delete)),
+                        ],
+                      ),
+                    ),
+                ]),
+              ),
+            ),
           ),
           TextButton(
             style: TextButton.styleFrom(
