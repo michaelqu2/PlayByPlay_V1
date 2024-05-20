@@ -17,7 +17,7 @@ class _LoggingRecordPageState extends State<LoggingRecordPage> {
   final _timeController = TextEditingController();
   final _sportController = TextEditingController();
   List<String> sports = [];
-  String? selected_sports;
+  late String selected_sports;
 
   Future<void> loadUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -140,7 +140,7 @@ class _LoggingRecordPageState extends State<LoggingRecordPage> {
                 Navigator.pop(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const LoggingDisplayPage()));
+                        builder: (context) => LoggingDisplayPage(selected_sports: selected_sports,)));
               },
               child: const Text(
                 "Save",
