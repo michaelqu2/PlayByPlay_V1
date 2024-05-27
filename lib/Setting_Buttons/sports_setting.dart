@@ -84,15 +84,20 @@ class _SportsSettingPageState extends State<SportsSettingPage> {
                               controller: sportsTC[i],
                             ),
                           ),
-                          IconButton(
-                              onPressed: AddSportField,
-                              icon: const Icon(Icons.add)),
+
                           IconButton(
                               onPressed: () => RemoveSportField(i),
                               icon: const Icon(Icons.delete)),
+
                         ],
                       ),
                     ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: IconButton(
+                        onPressed: AddSportField,
+                        icon: const Icon(Icons.add)),
+                  )
                 ]),
               ),
             ),
@@ -105,8 +110,10 @@ class _SportsSettingPageState extends State<SportsSettingPage> {
             ),
             onPressed: () {
               print("save sports setting");
+              saveUserInfo();
               Navigator.pop(context,
                   MaterialPageRoute(builder: (context) => const SettingPage()));
+
             },
             child: const Text(
               "Save",

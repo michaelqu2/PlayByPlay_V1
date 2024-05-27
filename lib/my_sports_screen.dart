@@ -98,6 +98,7 @@ class _MySportsScreenPageState extends State<MySportsScreenPage> {
                             endIndent: 0,
                             color: Colors.black,
                           ),
+                          /*
                           ListView(children: [
                             Text('Sport logs'),
                             SizedBox(
@@ -129,6 +130,7 @@ class _MySportsScreenPageState extends State<MySportsScreenPage> {
                                       const Divider(),
                                     )))
                           ])
+                          */
                         ]))))));
   }
 }

@@ -4,6 +4,8 @@ import '/initial_questions_golf.dart';
 import 'package:app_v1/logging_display.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
+import 'package:intl/intl.dart';
+import 'package:flutter/cupertino.dart';
 
 class LoggingRecordPage extends StatefulWidget {
   const LoggingRecordPage({super.key});
@@ -13,40 +15,55 @@ class LoggingRecordPage extends StatefulWidget {
 }
 
 class _LoggingRecordPageState extends State<LoggingRecordPage> {
+  late DateTime log_date;
   final _dateController = TextEditingController();
   final _timeController = TextEditingController();
-  final _sportController = TextEditingController();
+  final _resultController = TextEditingController();
+  bool _showCalender = false;
+
+  Future<void> DateSelect() async {
+    DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1950),
+      lastDate: DateTime(2100),
+    );
+    if (picked != null) {
+      setState(() {
+        _dateController.text = picked.toString().split(" ")[0];
+      });
+    }
+  }
+
   List<String> sports = [];
   late String selected_sports;
 
-  Future<void> loadUserInfo() async {
+  Future<void> loadUserSports() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      _dateController.text = prefs.getString("logDate") ?? '';
-      _timeController.text = prefs.getString("logTime") ?? '';
-      _sportController.text = prefs.getString("logSport") ?? '';
       if (prefs.containsKey('sports')) sports = prefs.getStringList('sports')!;
       selected_sports = sports.isNotEmpty ? sports.first : '';
     });
   }
 
-  Future<void> saveUserInfo() async {
+  Future<void> saveLogInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String jsonlog = prefs.getString(selected_sports!)??'[]';
+    String jsonlog = prefs.getString(selected_sports!) ?? '[]';
     List logs = jsonDecode(jsonlog);
     Map data = {
       'logDate': _dateController.text,
       'logTime': _timeController.text,
-      'logSport': _sportController.text,
+      'logResult': _resultController.text,
     };
     logs.add(data);
-    prefs.setString(selected_sports!,jsonEncode(logs));
+    prefs.setString(selected_sports!, jsonEncode(logs));
     print("Log is added");
   }
+
   @override
   void initState() {
     super.initState();
-    loadUserInfo();
+    loadUserSports();
   }
 
   @override
@@ -95,24 +112,86 @@ class _LoggingRecordPageState extends State<LoggingRecordPage> {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.only(top: 0),
-                                  child: TextField(
-                                    keyboardType: TextInputType.text,
-                                    decoration: InputDecoration(
-                                      labelText: "Date",
-                                      hintText: "Date",
-                                    ),
-                                    controller: _dateController,
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        flex: 7,
+                                        child: TextField(
+                                          keyboardType: TextInputType.text,
+                                          controller: _dateController,
+                                          decoration: InputDecoration(
+                                              labelText: "Enter Log Date",
+                                              hintText: "Log Date",
+                                              border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                              )),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: IconButton(
+                                          icon: Icon(Icons.calendar_month),
+                                          onPressed: () {
+                                            setState(() {
+                                              if (_dateController
+                                                  .text.isEmpty) {
+                                                _dateController.text =
+                                                    DateTime.now()
+                                                        .toString()
+                                                        .substring(0, 10);
+                                              }
+                                              _showCalender = !_showCalender;
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
+                                _showCalender
+                                    ? SizedBox(
+                                        height: 100,
+                                        child: CupertinoDatePicker(
+                                          mode: CupertinoDatePickerMode.date,
+                                          initialDateTime: DateTime.now(),
+                                          onDateTimeChanged:
+                                              (DateTime newDateTime) {
+                                            setState(() {
+                                              _dateController.text = newDateTime
+                                                  .toString()
+                                                  .substring(0, 10);
+                                            });
+                                          },
+                                        ),
+                                      )
+                                    : SizedBox(),
                                 Padding(
                                   padding: const EdgeInsets.only(top: 0),
-                                  child: TextField(
-                                    keyboardType: TextInputType.text,
-                                    decoration: InputDecoration(
-                                      labelText: "Time",
-                                      hintText: "Time",
-                                    ),
-                                    controller: _timeController,
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        flex: 7,
+                                        child: TextField(
+                                          keyboardType: TextInputType.text,
+                                          controller: _timeController,
+                                          decoration: InputDecoration(
+                                              labelText: "Enter Log Time",
+                                              hintText: "Log Time",
+                                              border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                              )),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: IconButton(
+                                          icon: Icon(Icons.timer),
+                                          onPressed: () async{
+
+                                          },
+                                        ),
+                                      )
+                                    ],
                                   ),
                                 ),
                                 Padding(
@@ -123,7 +202,7 @@ class _LoggingRecordPageState extends State<LoggingRecordPage> {
                                       labelText: "Sport",
                                       hintText: "Sport",
                                     ),
-                                    controller: _sportController,
+                                    controller: _resultController,
                                   ),
                                 )
                               ])),
@@ -136,11 +215,13 @@ class _LoggingRecordPageState extends State<LoggingRecordPage> {
               ),
               onPressed: () {
                 print("save");
-                saveUserInfo();
+                saveLogInfo();
                 Navigator.pop(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => LoggingDisplayPage(selected_sports: selected_sports,)));
+                        builder: (context) => LoggingDisplayPage(
+                              selected_sports: selected_sports,
+                            )));
               },
               child: const Text(
                 "Save",
