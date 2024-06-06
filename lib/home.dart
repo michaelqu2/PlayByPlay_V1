@@ -26,7 +26,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            const InitialQuestionsGolfPage()));
+                            InitialQuestionsGolfPage()));
               },
               child: const Text(
                 "Initial Golf Questions",

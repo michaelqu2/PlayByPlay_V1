@@ -15,9 +15,11 @@ class InitialQuestionsGolfPage extends StatefulWidget {
 
 class _InitialQuestionsGolfPageState extends State<InitialQuestionsGolfPage> {
   late final OpenAI _openAI;
+  late String GPTresponse;
 
   Future<void> _handleInitialMessage() async {
     final prefs = await SharedPreferences.getInstance();
+
     String instructionPrompt =
         "Hi my name is ${prefs.getString('Name')}, what is 1+1";
     print(instructionPrompt);
@@ -29,8 +31,18 @@ class _InitialQuestionsGolfPageState extends State<InitialQuestionsGolfPage> {
     ]);
     ChatCTResponse? response = await _openAI.onChatCompletion(request: request);
     String result = response!.choices.first.message!.content.trim();
+    prefs.setString("GPTresponse", result);
+    setState(() {
+      GPTresponse = (prefs.getString("GPTresponse") ?? '');
+    });
     print(result);
+
   }
+
+  getAnswers(){
+
+  }
+
 
   Future<bool> _hasProfile() async {
     final prefs = await SharedPreferences.getInstance();
@@ -60,10 +72,10 @@ class _InitialQuestionsGolfPageState extends State<InitialQuestionsGolfPage> {
       appBar: AppBar(
         backgroundColor: Colors.grey,
       ),
-      body: const Center(
+      body: Center(
         child: Column(
           children: [
-            Text("Home Page"),
+            Text(GPTresponse),
           ],
         ),
       ),
