@@ -1,16 +1,27 @@
 import 'package:flutter/material.dart';
 import '/profile.dart';
 import '/initial_questions_golf.dart';
-import '/selection.dart';
+import 'package:app_v1/home.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class SelectionPage extends StatefulWidget {
+  const SelectionPage({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<SelectionPage> createState() => _SelectionPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _SelectionPageState extends State<SelectionPage> {
+  List<String> sportsTC = [];
+
+  Future<void> loadUserInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      sportsTC = (prefs.getStringList('sports') ?? []).map((sport)).toList();
+    });
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,14 +31,17 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Text("Home Page"),
+            Text("Selection Page"),
+            DropdownButton(items: sportsTC, onChanged: (String newvalue{
+
+            }), value: chosen_sport,)
             TextButton(
               onPressed: () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            SelectionPage()));
+                            InitialQuestionsGolfPage()));
               },
               child: const Text(
                 "Initial Golf Questions",

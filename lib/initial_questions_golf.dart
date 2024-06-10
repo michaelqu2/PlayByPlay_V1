@@ -4,6 +4,7 @@ import '/home.dart';
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:app_v1/selection.dart'
 
 class InitialQuestionsGolfPage extends StatefulWidget {
   const InitialQuestionsGolfPage({super.key});
@@ -15,7 +16,7 @@ class InitialQuestionsGolfPage extends StatefulWidget {
 
 class _InitialQuestionsGolfPageState extends State<InitialQuestionsGolfPage> {
   late final OpenAI _openAI;
-  late String GPTresponse;
+  String? GPTresponse;
 
   Future<void> _handleInitialMessage() async {
     final prefs = await SharedPreferences.getInstance();
@@ -30,12 +31,12 @@ class _InitialQuestionsGolfPageState extends State<InitialQuestionsGolfPage> {
       )
     ]);
     ChatCTResponse? response = await _openAI.onChatCompletion(request: request);
-    String result = response!.choices.first.message!.content.trim();
-    prefs.setString("GPTresponse", result);
     setState(() {
+      String result = response!.choices.first.message!.content.trim();
+      prefs.setString("GPTresponse", result);
       GPTresponse = (prefs.getString("GPTresponse") ?? '');
     });
-    print(result);
+    // print(result);
 
   }
 
@@ -75,7 +76,7 @@ class _InitialQuestionsGolfPageState extends State<InitialQuestionsGolfPage> {
       body: Center(
         child: Column(
           children: [
-            Text(GPTresponse),
+            Text(GPTresponse ?? ""),
           ],
         ),
       ),
