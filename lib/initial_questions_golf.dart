@@ -4,7 +4,7 @@ import '/home.dart';
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:app_v1/selection.dart'
+import 'package:app_v1/selection.dart';
 
 class InitialQuestionsGolfPage extends StatefulWidget {
   const InitialQuestionsGolfPage({super.key});
