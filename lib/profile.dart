@@ -37,7 +37,7 @@ class _ProfilePageState extends State<ProfilePage> {
     _loadInfo();
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors. grey,
+          backgroundColor: Colors. white,
           actions: <Widget>[
             Padding(
                 padding: const EdgeInsets.only(right: 20),
@@ -92,7 +92,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   Container(
                       width: 200.0,
                       height: 200.0,
-                      color: Colors.white54,
+                      color: Colors.white,
                       child: (Column(children: [
                         Container(
                             width: 225.0,
@@ -163,7 +163,7 @@ class _ProfilePageState extends State<ProfilePage> {
             Container(
                 width: 375,
                 height: 185,
-                color: Colors.grey,
+                color: Colors.cyanAccent,
                 child: const Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,

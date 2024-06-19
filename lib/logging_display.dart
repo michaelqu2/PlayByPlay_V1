@@ -39,7 +39,8 @@ class _LoggingDisplayPageState extends State<LoggingDisplayPage> {
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.grey,
+        backgroundColor: Colors.white,
+
       ),
       body: Padding(
         padding: const EdgeInsets.all(12),
@@ -50,16 +51,16 @@ class _LoggingDisplayPageState extends State<LoggingDisplayPage> {
               child: Column(children: [
                 Container(
                     width: 500,
-                    height: 150,
+                    height: 50,
                     padding: const EdgeInsets.only(
-                        left: 20, right: 20, top: 10, bottom: 20),
+                        left: 20, right: 20, top: 10, bottom: 10),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                            width: 150.0,
-                            height: 200.0,
+                            height: 100,
+                            width: 250,
                             color: Colors.white,
                             child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -67,25 +68,7 @@ class _LoggingDisplayPageState extends State<LoggingDisplayPage> {
                                 children: [
                                   Text("LOG NUMBER"),
                                 ])),
-                        Container(
-                            width: 100.0,
-                            height: 50.0,
-                            color: Colors.greenAccent,
-                            child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  TextButton(
-                                      onPressed: () {
-                                        print("add log");
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const LoggingRecordPage()));
-                                      },
-                                      child: const Text("Add Log")),
-                                ])),
+
                       ],
                     )),
                 const Divider(
@@ -95,10 +78,9 @@ class _LoggingDisplayPageState extends State<LoggingDisplayPage> {
                   endIndent: 0,
                   color: Colors.black,
                 ),
-                ListView(
-                  children: [
-                    Text('${widget.selected_sports} logs'.toUpperCase()),
-                    logs.isNotEmpty
+                Expanded(
+                    // Text('${widget.selected_sports} logs'.toUpperCase()),
+                    child: logs.isNotEmpty
                         ? ListView.separated(
                             itemCount: logs.length,
                             itemBuilder: (BuildContext context, int index) {
@@ -126,7 +108,7 @@ class _LoggingDisplayPageState extends State<LoggingDisplayPage> {
                               )),
                             ],
                           ),
-                  ],
+
                 ),
               ]),
             ),

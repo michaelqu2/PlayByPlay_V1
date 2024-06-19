@@ -70,7 +70,7 @@ class _LoggingRecordPageState extends State<LoggingRecordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.grey,
+        backgroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -111,7 +111,7 @@ class _LoggingRecordPageState extends State<LoggingRecordPage> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.only(top: 0),
+                                  padding: const EdgeInsets.only(top: 10),
                                   child: Row(
                                     children: [
                                       Expanded(
@@ -166,7 +166,7 @@ class _LoggingRecordPageState extends State<LoggingRecordPage> {
                                       )
                                     : SizedBox(),
                                 Padding(
-                                  padding: const EdgeInsets.only(top: 0),
+                                  padding: const EdgeInsets.only(top: 10),
                                   child: Row(
                                     children: [
                                       Expanded(
@@ -186,8 +186,18 @@ class _LoggingRecordPageState extends State<LoggingRecordPage> {
                                       Expanded(
                                         child: IconButton(
                                           icon: Icon(Icons.timer),
-                                          onPressed: () async{
-
+                                          onPressed: () async {
+                                            TimeOfDay? pickedTime =
+                                                await showTimePicker(
+                                              context: context,
+                                              initialTime: TimeOfDay.now(),
+                                            );
+                                            if (pickedTime != null) {
+                                              setState(() {
+                                                _timeController.text =
+                                                    pickedTime.format(context);
+                                              });
+                                            }
                                           },
                                         ),
                                       )
@@ -195,16 +205,33 @@ class _LoggingRecordPageState extends State<LoggingRecordPage> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(top: 0),
-                                  child: TextField(
-                                    keyboardType: TextInputType.text,
-                                    decoration: InputDecoration(
-                                      labelText: "Sport",
-                                      hintText: "Sport",
-                                    ),
-                                    controller: _resultController,
+                                  padding: const EdgeInsets.only(top:10, right: 37),
+                                  child: Column(
+                                    children: [
+                                      DropdownButtonFormField<String>(
+                                        decoration: InputDecoration(
+                                          labelText: "Sport",
+                                          hintText: "Select Sport",
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(20),
+                                          ),
+                                        ),
+                                        value: selected_sports.isNotEmpty ? selected_sports : null,
+                                        items: sports.map((String sport) {
+                                          return DropdownMenuItem<String>(
+                                            value: sport,
+                                            child: Text(sport),
+                                          );
+                                        }).toList(),
+                                        onChanged: (newValue) {
+                                          setState(() {
+                                            selected_sports = newValue!;
+                                          });
+                                        },
+                                      ),
+                                    ],
                                   ),
-                                )
+                                ),
                               ])),
                     ])),
             TextButton(

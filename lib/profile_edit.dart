@@ -42,7 +42,7 @@ class _profile_editState extends State<profile_edit> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors. grey,
+        backgroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
         child: Column(

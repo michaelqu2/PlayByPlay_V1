@@ -5,6 +5,7 @@ import '/initial_questions_golf.dart';
 import '/route.dart';
 import 'package:app_v1/logging_record.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/material.dart';
 
 import 'logging_display.dart';
 
@@ -34,35 +35,44 @@ class _MySportsScreenPageState extends State<MySportsScreenPage> {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
+    double height = MediaQuery
+        .of(context)
+        .size
+        .height;
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.grey,
+          backgroundColor: Colors.white,
         ),
         body: Padding(
-            padding: const EdgeInsets.all(12),
-            child: Card(
+            padding: const EdgeInsets.all(0),
+            child: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/background_log.jpg'),
+                    fit: BoxFit.cover,
+                  ),
+                  color: Colors.white,
+                ),
                 child: SizedBox(
                     child: Padding(
-                        padding: const EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(0),
                         child: Column(children: [
                           Container(
-                              width: 500,
-                              height: 150,
+                              height: 70,
                               padding: const EdgeInsets.only(
-                                  left: 20, right: 20, top: 10, bottom: 20),
-                              child: Row(
+                                  left: 20, right: 20, top: 0, bottom: 0),
+                              child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment:
                                 MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(
                                       width: 150.0,
-                                      height: 200.0,
+                                      height: 20,
                                       color: Colors.white,
                                       child: Row(
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.center,
+                                          CrossAxisAlignment.start,
                                           mainAxisAlignment:
                                           MainAxisAlignment.center,
                                           children: [
@@ -92,45 +102,44 @@ class _MySportsScreenPageState extends State<MySportsScreenPage> {
                                 ],
                               )),
                           const Divider(
-                            height: 20,
+                            height: 50,
                             thickness: 2,
-                            indent: 10,
+                            indent: 0,
                             endIndent: 0,
                             color: Colors.black,
                           ),
-                          /*
-                          ListView(children: [
-                            Text('Sport logs'),
-                            SizedBox(
-                                child: Scrollbar(
-                                    child: ListView.separated(
-                                      itemCount: sports.length,
-                                      itemBuilder: (BuildContext context, int index) {
-                                        return Card(
-                                          child: ListTile(
-                                            title: Text('${sports[index]}'),
-                                            trailing: IconButton(
-                                              icon: const Icon(Icons.ice_skating),
-                                              onPressed: () {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          LoggingDisplayPage(
-                                                              selected_sports:
-                                                              sports[index])),
-                                                );
-                                              },
-                                            ),
+                            Expanded(
+
+                              child: Scrollbar(
+                                child: ListView.separated(
+                                    itemCount: sports.length,
+                                    itemBuilder: (BuildContext context,
+                                        int index) {
+                                      return Card(
+                                        child: ListTile(
+                                          title: Text('${sports[index]}'),
+                                          trailing: IconButton(
+                                            icon: const Icon(
+                                                Icons.ice_skating),
+                                            onPressed: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+
+                                                        LoggingDisplayPage(
+                                                            selected_sports:
+                                                            sports[index])),
+                                              );
+                                            },
                                           ),
-                                        );
-                                      },
-                                      separatorBuilder:
-                                          (BuildContext context, int index) =>
-                                      const Divider(),
-                                    )))
-                          ])
-                          */
+                                        ),
+                                      );
+                                    },
+                                    separatorBuilder:
+                                        (BuildContext context, int index) => const Divider(),
+                                ))
+                          )
                         ]))))));
   }
 }

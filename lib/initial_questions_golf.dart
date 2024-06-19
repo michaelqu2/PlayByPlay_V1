@@ -22,7 +22,7 @@ class _InitialQuestionsGolfPageState extends State<InitialQuestionsGolfPage> {
     final prefs = await SharedPreferences.getInstance();
 
     String instructionPrompt =
-        "Hi my name is ${prefs.getString('Name')}, what is 1+1";
+        "Hi my name is ${prefs.getString('Name')}, what is 1+3";
     print(instructionPrompt);
     final request = ChatCompleteText(model: GptTurbo0631Model(), messages: [
       Messages(

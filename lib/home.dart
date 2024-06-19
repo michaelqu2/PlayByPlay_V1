@@ -15,19 +15,32 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.grey,
+        title: Text('Home Page',
+          style: TextStyle(
+            fontSize: 12,
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Text("Home Page"),
+            Container(
+                width: 225.0,
+                height: 150.0,
+                color: Colors.white,
+                alignment: Alignment.bottomCenter,
+                child: Column(children: [
+                  Text(
+                    "     ",
+                    style: TextStyle(
+                      fontSize: 10,
+                    ),
+                  ),
+                ])),
             TextButton(
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            SelectionPage()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SelectionPage()));
               },
               child: const Text(
                 "Initial Golf Questions",
@@ -42,4 +55,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-

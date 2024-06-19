@@ -3,6 +3,7 @@ import '/profile.dart';
 import '/initial_questions_golf.dart';
 import 'package:app_v1/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:app_v1/Setting_Buttons/sports_setting.dart';
 
 class SelectionPage extends StatefulWidget {
   const SelectionPage({super.key});
@@ -35,6 +36,34 @@ class _SelectionPageState extends State<SelectionPage> {
   }
 
   void _showAlertDialogue() {
+    showDialog(context: context, builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Please Update Your Settings'),
+        content: SingleChildScrollView(
+          child: Column(
+            children: [
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              SportsSettingPage()));
+                },
+                child: const Text(
+                  "You need to select a sports",
+                  style: TextStyle(
+                    fontSize: 12,
+                  ),
+                ),
+              ),
+
+            ],
+          ),
+        ),
+      );
+    }
+    );
     // showDialogue(context:context)
   }
 
@@ -42,13 +71,13 @@ class _SelectionPageState extends State<SelectionPage> {
   void initState() {
     super.initState();
     hasSports().then((value) {
-      if(value == true){
+      if (value == true) {
         loadUserInfo();
       }
-      else{
+      else {
         _showAlertDialogue();
       }
-    })
+    });
   }
 
   Widget build(BuildContext context) {

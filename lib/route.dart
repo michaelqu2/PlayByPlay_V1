@@ -36,26 +36,30 @@ class _RoutePageState extends State<RoutePage> {
     return Scaffold(
       body: pages[pageIndex],
       bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: const Color.fromRGBO(50, 50, 50, 1),
-          items: const <BottomNavigationBarItem>[
+          backgroundColor: const Color.fromRGBO(255, 255, 255, 1),
+
+          items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
-              backgroundColor: Colors.white,
+              backgroundColor: Colors.blue,
               label: "home",
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.add),
+              icon: Icon(
+                Icons.add,
+                fill: 1,
+              ),
               label: "logging",
-              backgroundColor: Colors.white,
+              backgroundColor: Colors.blue,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person),
               label: "profile",
-              backgroundColor: Colors.white,
+              backgroundColor: Colors.blue,
             ),
           ],
           currentIndex: pageIndex,
-          selectedItemColor: const Color.fromRGBO(0, 230, 220, 1),
+          selectedItemColor: const Color.fromRGBO(255, 0, 0, 1),
           onTap: (int index) {
             setState(() {
               pageIndex = index;
