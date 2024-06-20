@@ -36,19 +36,19 @@ class _LoggingRecordPageState extends State<LoggingRecordPage> {
   }
 
   List<String> sports = [];
-  late String selected_sports;
+  late String selected_sports = '';
 
   Future<void> loadUserSports() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       if (prefs.containsKey('sports')) sports = prefs.getStringList('sports')!;
-      selected_sports = sports.isNotEmpty ? sports.first : '';
+      selected_sports = prefs.getString('selected_sport') ?? (sports.isNotEmpty ? sports.first : '');
     });
   }
 
   Future<void> saveLogInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String jsonlog = prefs.getString(selected_sports!) ?? '[]';
+    String jsonlog = prefs.getString(selected_sports) ?? '[]';
     List logs = jsonDecode(jsonlog);
     Map data = {
       'logDate': _dateController.text,
@@ -56,7 +56,7 @@ class _LoggingRecordPageState extends State<LoggingRecordPage> {
       'logResult': _resultController.text,
     };
     logs.add(data);
-    prefs.setString(selected_sports!, jsonEncode(logs));
+    prefs.setString(selected_sports, jsonEncode(logs));
     print("Log is added");
   }
 
@@ -124,7 +124,7 @@ class _LoggingRecordPageState extends State<LoggingRecordPage> {
                                               hintText: "Log Date",
                                               border: OutlineInputBorder(
                                                 borderRadius:
-                                                    BorderRadius.circular(20),
+                                                BorderRadius.circular(20),
                                               )),
                                         ),
                                       ),
@@ -150,20 +150,20 @@ class _LoggingRecordPageState extends State<LoggingRecordPage> {
                                 ),
                                 _showCalender
                                     ? SizedBox(
-                                        height: 100,
-                                        child: CupertinoDatePicker(
-                                          mode: CupertinoDatePickerMode.date,
-                                          initialDateTime: DateTime.now(),
-                                          onDateTimeChanged:
-                                              (DateTime newDateTime) {
-                                            setState(() {
-                                              _dateController.text = newDateTime
-                                                  .toString()
-                                                  .substring(0, 10);
-                                            });
-                                          },
-                                        ),
-                                      )
+                                  height: 100,
+                                  child: CupertinoDatePicker(
+                                    mode: CupertinoDatePickerMode.date,
+                                    initialDateTime: DateTime.now(),
+                                    onDateTimeChanged:
+                                        (DateTime newDateTime) {
+                                      setState(() {
+                                        _dateController.text = newDateTime
+                                            .toString()
+                                            .substring(0, 10);
+                                      });
+                                    },
+                                  ),
+                                )
                                     : SizedBox(),
                                 Padding(
                                   padding: const EdgeInsets.only(top: 10),
@@ -179,7 +179,7 @@ class _LoggingRecordPageState extends State<LoggingRecordPage> {
                                               hintText: "Log Time",
                                               border: OutlineInputBorder(
                                                 borderRadius:
-                                                    BorderRadius.circular(20),
+                                                BorderRadius.circular(20),
                                               )),
                                         ),
                                       ),
@@ -188,7 +188,7 @@ class _LoggingRecordPageState extends State<LoggingRecordPage> {
                                           icon: Icon(Icons.timer),
                                           onPressed: () async {
                                             TimeOfDay? pickedTime =
-                                                await showTimePicker(
+                                            await showTimePicker(
                                               context: context,
                                               initialTime: TimeOfDay.now(),
                                             );
@@ -242,13 +242,13 @@ class _LoggingRecordPageState extends State<LoggingRecordPage> {
               ),
               onPressed: () {
                 print("save");
-                saveLogInfo();
                 Navigator.pop(
                     context,
                     MaterialPageRoute(
                         builder: (context) => LoggingDisplayPage(
-                              selected_sports: selected_sports,
-                            )));
+                          selected_sports: selected_sports,
+                        )));
+                saveLogInfo();
               },
               child: const Text(
                 "Save",

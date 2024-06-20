@@ -24,6 +24,12 @@ class _SelectionPageState extends State<SelectionPage> {
     });
   }
 
+  Future<void> saveUserSports() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('selected_sport1', _choice??'');
+    prefs.setString('selected_level', _level??'');
+  }
+
   Future<void> PageAdvanced() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString("SelectionPageChoice", _choice!);
@@ -116,6 +122,7 @@ class _SelectionPageState extends State<SelectionPage> {
               },
             ),
 
+
             TextButton(
               onPressed: () {
                 PageAdvanced();
@@ -124,6 +131,9 @@ class _SelectionPageState extends State<SelectionPage> {
                     MaterialPageRoute(
                         builder: (context) =>
                             InitialQuestionsGolfPage()));
+                saveUserSports();
+                print(_choice);
+                print(_level);
               },
               child: const Text(
                 "Initial Golf Questions",

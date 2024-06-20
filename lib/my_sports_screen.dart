@@ -18,13 +18,20 @@ class MySportsScreenPage extends StatefulWidget {
 
 class _MySportsScreenPageState extends State<MySportsScreenPage> {
   List<String> sports = [];
+  late String selectedSports = sports.isNotEmpty ? sports.first : '';
 
   Future<void> _loadInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       if (prefs.containsKey('sports')) sports = prefs.getStringList('sports')!;
       sports.sort((a, b) => a.toLowerCase().compareTo(b.toLowerCase()));
+      selectedSports = prefs.getString('selected_sport') ?? (sports.isNotEmpty ? sports.first : '');
     });
+  }
+  Future<void> saveUserSports() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList('sports', sports);
+    await prefs.setString('selected_sport', selectedSports);
   }
 
   @override

@@ -5,6 +5,8 @@ import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:app_v1/selection.dart';
+import 'dart:convert';
+import 'initial_questions_golf_display.dart';
 
 class InitialQuestionsGolfPage extends StatefulWidget {
   const InitialQuestionsGolfPage({super.key});
@@ -17,14 +19,22 @@ class InitialQuestionsGolfPage extends StatefulWidget {
 class _InitialQuestionsGolfPageState extends State<InitialQuestionsGolfPage> {
   late final OpenAI _openAI;
   String? GPTresponse;
+  List<String> questions = [];
+  List<TextEditingController> answersController = [];
+  bool isLoading = true;
 
   Future<void> _handleInitialMessage() async {
     final prefs = await SharedPreferences.getInstance();
-
+    String userPrompt =
+        'Hi my name is ${prefs.getString('Name')}, I am a ${prefs.getString('selected_gender')}. I play ${prefs.getString('selected_sport1')}. I am a ${prefs.getString('selected_level')}.';
     String instructionPrompt =
-        "Hi my name is ${prefs.getString('Name')}, what is 1+3";
+        "can you ask me some questions base off my information that will help to determine my level and ways to improve my games? Please make sure that you only return a JSON format that look like this: {questions: <list of questions>}. Ensure the JSON is valid and do not write anything before or after the JSON structure provided.";
     print(instructionPrompt);
     final request = ChatCompleteText(model: GptTurbo0631Model(), messages: [
+      Messages(
+        role: Role.user,
+        content: userPrompt,
+      ),
       Messages(
         role: Role.system,
         content: instructionPrompt,
@@ -33,17 +43,28 @@ class _InitialQuestionsGolfPageState extends State<InitialQuestionsGolfPage> {
     ChatCTResponse? response = await _openAI.onChatCompletion(request: request);
     setState(() {
       String result = response!.choices.first.message!.content.trim();
-      prefs.setString("GPTresponse", result);
-      GPTresponse = (prefs.getString("GPTresponse") ?? '');
+      print(result);
+      try {
+        Map<String, dynamic> resultMap =
+            Map<String, dynamic>.from(json.decode(result));
+        questions = List<String>.from(resultMap['questions']);
+        answersController =
+            List.generate(questions.length, (index) => TextEditingController());
+        isLoading = false;
+      } catch (e) {
+        print("Error Parsing JSON $e");
+      }
     });
     // print(result);
-
   }
 
-  getAnswers(){
-
+  getAnswers() {
+    List<String> answers = [];
+    for (int i = 0; i < answersController.length; i++) {
+      answers.add(answersController[i].text);
+    }
+    return answers;
   }
-
 
   Future<bool> _hasProfile() async {
     final prefs = await SharedPreferences.getInstance();
@@ -73,12 +94,54 @@ class _InitialQuestionsGolfPageState extends State<InitialQuestionsGolfPage> {
       appBar: AppBar(
         backgroundColor: Colors.grey,
       ),
-      body: Center(
-        child: Column(
-          children: [
-            Text(GPTresponse ?? ""),
-          ],
-        ),
+      body: SingleChildScrollView(
+        child: !isLoading
+            ? ListView(
+                children: [
+                  ListView.builder(
+                      itemCount: questions.length,
+                      physics: ClampingScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Question ${index + 1}: ${questions[index]}"),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 5),
+                              child: TextField(
+                                decoration: InputDecoration(
+                                  hintText: "Type Your Answer Here",
+                                ),
+                                controller: answersController[index],
+                                onChanged: (value) {},
+                              ),
+                            )
+                          ],
+                        );
+                      }),
+                  ElevatedButton(
+                      onPressed: () {
+                        List<String> saved_answers = getAnswers();
+                        print(saved_answers);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  InitialQuestionsGolfDisplayPage(
+                                      questions: questions,
+                                      answers: saved_answers)),
+                        ).then((value) => Navigator.pop(context));
+                      },
+                      child: const Text("Get Suggestion"))
+                ],
+              )
+            : Center(
+                child: Container(
+                  margin: const EdgeInsets.all(5),
+                  child: CircularProgressIndicator(),
+                ),
+              ),
       ),
     );
   }
