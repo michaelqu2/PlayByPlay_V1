@@ -24,6 +24,7 @@ class _InitialQuestionsGolfDisplayPageState extends State<InitialQuestionsGolfDi
   String? GPTresponse;
   List<String> response = [];
   bool isLoading = true;
+  List<bool> return_response = [];
 
   Future<void> _handleInitialMessage() async {
     final prefs = await SharedPreferences.getInstance();
@@ -42,15 +43,17 @@ class _InitialQuestionsGolfDisplayPageState extends State<InitialQuestionsGolfDi
         content: instructionPrompt,
       )
     ]);
-    ChatCTResponse? response = await _openAI.onChatCompletion(request: request);
+    ChatCTResponse? response1 = await _openAI.onChatCompletion(request: request);
     setState(() {
-      String result = response!.choices.first.message!.content.trim();
+      String result = response1!.choices.first.message!.content.trim();
       print(result);
       try {
         Map<String, dynamic> resultMap = Map<String, dynamic>.from(
             json.decode(result));
-        // response = List<String>.from(resultMap['sports']);
+        response = List<String>.from(resultMap['improvements']);
+        return_response = List.generate(response.length, (index) => false);
         isLoading = false;
+        print(response);
       } catch (e) {
         print("Error Parsing JSON $e");
       }
@@ -58,8 +61,27 @@ class _InitialQuestionsGolfDisplayPageState extends State<InitialQuestionsGolfDi
     // print(result);
 
   }
-
-
+  
+  void handleButtonPress() {
+    for(int i = 0; i< return_response.length; i++){
+      if(return_response[i]){
+        saveImprovements(response[i]);
+      }
+    }
+  }
+  
+  Future<void> saveImprovements(String Sports) async{
+    final prefs = await SharedPreferences.getInstance();
+    List<String> savedImprovements = prefs.getStringList("improvements")??[];
+    if(!savedImprovements.contains(Sports)){
+      savedImprovements.add(Sports);
+      prefs.setStringList("improvements", savedImprovements);
+      print("Improvement Saved");
+    }
+    else{
+      print("Improvement is already saved");
+    }
+  }
 
 
   Future<bool> _hasProfile() async {
@@ -91,53 +113,40 @@ class _InitialQuestionsGolfDisplayPageState extends State<InitialQuestionsGolfDi
         backgroundColor: Colors.grey,
       ),
       body: SingleChildScrollView(
-        // child: !isLoading
-        //     ? ListView(
-        //   children: [
-        //     ListView.builder(
-        //         itemCount: questions.length,
-        //         physics: ClampingScrollPhysics(),
-        //         shrinkWrap: true,
-        //         itemBuilder: (context, index) {
-        //           return Column(
-        //             crossAxisAlignment: CrossAxisAlignment.start,
-        //             children: [
-        //               Text("Question ${index + 1}: ${questions[index]}"),
-        //               Padding(
-        //                 padding: const EdgeInsets.only(bottom: 5),
-        //                 child: TextField(
-        //                   decoration: InputDecoration(
-        //                     hintText: "Type Your Answer Here",
-        //                   ),
-        //                   controller: answersController[index],
-        //                   onChanged: (value) {},
-        //                 ),
-        //               )
-        //             ],
-        //           );
-        //         }),
-        //     ElevatedButton(
-        //         onPressed: () {
-        //           List<String> saved_answers = getAnswers();
-        //           print(saved_answers);
-        //           Navigator.push(
-        //             context,
-        //             MaterialPageRoute(
-        //                 builder: (context) =>
-        //                     InitialQuestionsGolfDisplayPage(
-        //                         questions: questions,
-        //                         answers: saved_answers)),
-        //           ).then((value) => Navigator.pop(context));
-        //         },
-        //         child: const Text("Get Suggestion"))
-        //   ],
-        // )
-        //     : Center(
-        //   child: Container(
-        //     margin: const EdgeInsets.all(5),
-        //     child: CircularProgressIndicator(),
-        //   ),
-        // ),
+        child: !isLoading
+            ? ListView(
+          children: [
+            ListView.builder(
+                itemCount: response.length,
+                physics: ClampingScrollPhysics(),
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Improvement ${index + 1}: ${response[index]}"),
+                    ],
+                  );
+                }),
+            ElevatedButton(
+                onPressed: () {
+                  handleButtonPress();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            MyHomePage()),
+                  ).then((value) => Navigator.pop(context));
+                },
+                child: const Text("Return Home"))
+          ],
+        )
+            : Center(
+          child: Container(
+            margin: const EdgeInsets.all(5),
+            child: CircularProgressIndicator(),
+          ),
+        ),
       ),
     );
   }

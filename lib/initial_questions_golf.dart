@@ -28,7 +28,7 @@ class _InitialQuestionsGolfPageState extends State<InitialQuestionsGolfPage> {
     String userPrompt =
         'Hi my name is ${prefs.getString('Name')}, I am a ${prefs.getString('selected_gender')}. I play ${prefs.getString('selected_sport1')}. I am a ${prefs.getString('selected_level')}.';
     String instructionPrompt =
-        "can you ask me some questions base off my information that will help to accurately determine my level in a more specific ways than beginner, intermediate, advanced. And these questions should also determines my top biggest weakness in my game that need to be improved. Please make sure that you only return a JSON format that look like this: {questions: <list of questions>}. Ensure the JSON is valid and do not write anything before or after the JSON structure provided.";
+        "can you ask me some questions base off my information that will help to accurately determine my level in a more specific ways. And these questions should also determines my biggest weakness in my game that need to be improved. Please make sure that you only return a JSON format that look like this: {questions: <list of questions>}. Ensure the JSON is valid and do not write anything before or after the JSON structure provided.";
     print(instructionPrompt);
     final request = ChatCompleteText(model: GptTurbo0631Model(), messages: [
       Messages(
