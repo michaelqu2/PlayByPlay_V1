@@ -26,9 +26,11 @@ class _InitialQuestionsGolfPageState extends State<InitialQuestionsGolfPage> {
   Future<void> _handleInitialMessage() async {
     final prefs = await SharedPreferences.getInstance();
     String userPrompt =
-        'Hi my name is ${prefs.getString('Name')}, I am a ${prefs.getString('selected_gender')}. I play ${prefs.getString('selected_sport1')}. I am a ${prefs.getString('selected_level')}.';
+        'Hi my name is ${prefs.getString('Name')}, I am a ${prefs.getString(
+        'selected_gender')}. I play ${prefs.getString(
+        'selected_sport1')}. I am a ${prefs.getString('selected_level')}.';
     String instructionPrompt =
-        "can you ask me some questions base off my information that will help to accurately determine my level in a more specific ways. And these questions should also determines my biggest weakness in my game that need to be improved. Please make sure that you only return a JSON format that look like this: {questions: <list of questions>}. Ensure the JSON is valid and do not write anything before or after the JSON structure provided.";
+        "can you ask me 3 questions base off my information that will help to accurately determine my level in a more specific ways. And these questions should also determines my biggest weakness in my game that need to be improved. Please make sure that you only return a JSON format that look like this: {questions: <list of questions>}. Ensure the JSON is valid and do not write anything before or after the JSON structure provided.";
     print(instructionPrompt);
     final request = ChatCompleteText(model: GptTurbo0631Model(), messages: [
       Messages(
@@ -41,21 +43,26 @@ class _InitialQuestionsGolfPageState extends State<InitialQuestionsGolfPage> {
       )
     ]);
     ChatCTResponse? response = await _openAI.onChatCompletion(request: request);
+    String result = response!.choices.first.message!.content.trim();
+    print(result);
+    getQuestions(result);
+    // print(result);
+  }
+
+  getQuestions(String results) {
     setState(() {
-      String result = response!.choices.first.message!.content.trim();
-      print(result);
       try {
         Map<String, dynamic> resultMap =
-            Map<String, dynamic>.from(json.decode(result));
+        Map<String, dynamic>.from(json.decode(results.toString()));
         questions = List<String>.from(resultMap['questions']);
         answersController =
             List.generate(questions.length, (index) => TextEditingController());
         isLoading = false;
       } catch (e) {
         print("Error Parsing JSON $e");
+        showAlertDialogue(context);
       }
     });
-    // print(result);
   }
 
   getAnswers() {
@@ -64,6 +71,26 @@ class _InitialQuestionsGolfPageState extends State<InitialQuestionsGolfPage> {
       answers.add(answersController[i].text);
     }
     return answers;
+  }
+
+  Future<void> showAlertDialogue(BuildContext context) {
+    return showDialog(context: context, builder: (context) {
+      return AlertDialog(
+        content: const SingleChildScrollView(
+          child: ListBody(
+            children: <Widget>[
+              Text("There was an error! Rerun?")
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+              onPressed: () {
+                _handleInitialMessage();
+              }, child: const Text("Run Again"))
+        ]
+      );
+    });
   }
 
   Future<bool> _hasProfile() async {
@@ -98,51 +125,51 @@ class _InitialQuestionsGolfPageState extends State<InitialQuestionsGolfPage> {
         padding: const EdgeInsets.all(10),
         child: !isLoading
             ? ListView(
-                children: [
-                  ListView.builder(
-                      itemCount: questions.length,
-                      physics: ClampingScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("Question ${index + 1}: ${questions[index]}"),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 5),
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  hintText: "Type Your Answer Here",
-                                ),
-                                controller: answersController[index],
-                                onChanged: (value) {},
-                              ),
-                            )
-                          ],
-                        );
-                      }),
-                  ElevatedButton(
-                      onPressed: () {
-                        List<String> saved_answers = getAnswers();
-                        print(saved_answers);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  InitialQuestionsGolfDisplayPage(
-                                      questions: questions,
-                                      answers: saved_answers)),
-                        ).then((value) => Navigator.pop(context));
-                      },
-                      child: const Text("Get Suggestion"))
-                ],
-              )
+          children: [
+            ListView.builder(
+                itemCount: questions.length,
+                physics: ClampingScrollPhysics(),
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Question ${index + 1}: ${questions[index]}"),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 5),
+                        child: TextField(
+                          decoration: InputDecoration(
+                            hintText: "Type Your Answer Here",
+                          ),
+                          controller: answersController[index],
+                          onChanged: (value) {},
+                        ),
+                      )
+                    ],
+                  );
+                }),
+            ElevatedButton(
+                onPressed: () {
+                  List<String> saved_answers = getAnswers();
+                  print(saved_answers);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            InitialQuestionsGolfDisplayPage(
+                                questions: questions,
+                                answers: saved_answers)),
+                  ).then((value) => Navigator.pop(context));
+                },
+                child: const Text("Get Suggestion"))
+          ],
+        )
             : Center(
-                child: Container(
-                  margin: const EdgeInsets.all(5),
-                  child: CircularProgressIndicator(),
-                ),
-              ),
+          child: Container(
+            margin: const EdgeInsets.all(5),
+            child: CircularProgressIndicator(),
+          ),
+        ),
       ),
     );
   }
