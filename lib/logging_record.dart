@@ -42,7 +42,8 @@ class _LoggingRecordPageState extends State<LoggingRecordPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       if (prefs.containsKey('sports')) sports = prefs.getStringList('sports')!;
-      selected_sports = prefs.getString('selected_sport') ?? (sports.isNotEmpty ? sports.first : '');
+      selected_sports = prefs.getString('selected_sport') ??
+          (sports.isNotEmpty ? sports.first : '');
     });
   }
 
@@ -98,14 +99,14 @@ class _LoggingRecordPageState extends State<LoggingRecordPage> {
             ),
             Container(
                 width: 500.0,
-                height: 300.0,
+                height: 400.0,
                 child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
                           width: 300.0,
-                          height: 300.0,
+                          height: 500.0,
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -124,7 +125,7 @@ class _LoggingRecordPageState extends State<LoggingRecordPage> {
                                               hintText: "Log Date",
                                               border: OutlineInputBorder(
                                                 borderRadius:
-                                                BorderRadius.circular(20),
+                                                    BorderRadius.circular(20),
                                               )),
                                         ),
                                       ),
@@ -150,20 +151,20 @@ class _LoggingRecordPageState extends State<LoggingRecordPage> {
                                 ),
                                 _showCalender
                                     ? SizedBox(
-                                  height: 100,
-                                  child: CupertinoDatePicker(
-                                    mode: CupertinoDatePickerMode.date,
-                                    initialDateTime: DateTime.now(),
-                                    onDateTimeChanged:
-                                        (DateTime newDateTime) {
-                                      setState(() {
-                                        _dateController.text = newDateTime
-                                            .toString()
-                                            .substring(0, 10);
-                                      });
-                                    },
-                                  ),
-                                )
+                                        height: 100,
+                                        child: CupertinoDatePicker(
+                                          mode: CupertinoDatePickerMode.date,
+                                          initialDateTime: DateTime.now(),
+                                          onDateTimeChanged:
+                                              (DateTime newDateTime) {
+                                            setState(() {
+                                              _dateController.text = newDateTime
+                                                  .toString()
+                                                  .substring(0, 10);
+                                            });
+                                          },
+                                        ),
+                                      )
                                     : SizedBox(),
                                 Padding(
                                   padding: const EdgeInsets.only(top: 10),
@@ -179,7 +180,7 @@ class _LoggingRecordPageState extends State<LoggingRecordPage> {
                                               hintText: "Log Time",
                                               border: OutlineInputBorder(
                                                 borderRadius:
-                                                BorderRadius.circular(20),
+                                                    BorderRadius.circular(20),
                                               )),
                                         ),
                                       ),
@@ -188,7 +189,7 @@ class _LoggingRecordPageState extends State<LoggingRecordPage> {
                                           icon: Icon(Icons.timer),
                                           onPressed: () async {
                                             TimeOfDay? pickedTime =
-                                            await showTimePicker(
+                                                await showTimePicker(
                                               context: context,
                                               initialTime: TimeOfDay.now(),
                                             );
@@ -205,7 +206,8 @@ class _LoggingRecordPageState extends State<LoggingRecordPage> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(top:10, right: 37),
+                                  padding:
+                                      const EdgeInsets.only(top: 10, right: 37),
                                   child: Column(
                                     children: [
                                       DropdownButtonFormField<String>(
@@ -213,10 +215,13 @@ class _LoggingRecordPageState extends State<LoggingRecordPage> {
                                           labelText: "Sport",
                                           hintText: "Select Sport",
                                           border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(20),
+                                            borderRadius:
+                                                BorderRadius.circular(20),
                                           ),
                                         ),
-                                        value: selected_sports.isNotEmpty ? selected_sports : null,
+                                        value: selected_sports.isNotEmpty
+                                            ? selected_sports
+                                            : null,
                                         items: sports.map((String sport) {
                                           return DropdownMenuItem<String>(
                                             value: sport,
@@ -246,8 +251,8 @@ class _LoggingRecordPageState extends State<LoggingRecordPage> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => LoggingDisplayPage(
-                          selected_sports: selected_sports,
-                        )));
+                              selected_sports: selected_sports,
+                            )));
                 saveLogInfo();
               },
               child: const Text(

@@ -5,6 +5,7 @@ import '/initial_questions_golf.dart';
 import '/route.dart';
 import 'package:app_v1/logging_record.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'my_sports_screen.dart';
 
 class LoggingDisplayPage extends StatefulWidget {
   const LoggingDisplayPage({super.key, required this.selected_sports});
@@ -27,6 +28,11 @@ class _LoggingDisplayPageState extends State<LoggingDisplayPage> {
       logs = jsonDecode(jsonlogs);
     });
   }
+  Future<void> _saveLogs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(widget.selected_sports, jsonEncode(logs));
+  }
+
 
   @override
   void initState() {
@@ -87,7 +93,27 @@ class _LoggingDisplayPageState extends State<LoggingDisplayPage> {
                               return Card(
                                 child: ListTile(
                                   title: Text('${logs[index]["logDate"]}'),
-                                  subtitle: Text('${logs[index]['logSport']}'),
+                                  trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,  // This ensures the row takes only as much space as its children need.
+                                    children: [
+                                      IconButton(
+                                        icon: Icon(Icons.edit),
+                                        onPressed: () {
+                                          print("edit log");
+                                        },
+                                      ),
+                                      IconButton(
+                                        icon: Icon(Icons.delete),
+                                        onPressed: () async {
+                                          setState(() {
+                                            logs.removeAt(index);
+                                          });
+                                          await _saveLogs();
+                                          print("delete log");
+                                        },
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               );
                             },

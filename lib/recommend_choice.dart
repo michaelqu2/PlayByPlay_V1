@@ -1,42 +1,67 @@
 import 'package:flutter/material.dart';
 import '/profile.dart';
 import '/initial_questions_golf.dart';
-import '/selection.dart';
-import 'recommend_choice.dart';
+import 'package:app_v1/home.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:app_v1/Setting_Buttons/sports_setting.dart';
+import 'question_1.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+
+class RecommendChoicePagePage extends StatefulWidget {
+  const RecommendChoicePagePage({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<RecommendChoicePagePage> createState() => _RecommendChoicePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _RecommendChoicePageState extends State<RecommendChoicePagePage> {
+  List<String>? sportsTC = [];
+  String? _choice;
+  String? _level;
+
+  Future<void> loadUserInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      sportsTC = prefs.getStringList('sports');
+    });
+  }
+
+  Future<void> saveUserSports() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('selected_sport1', _choice??'');
+    prefs.setString('selected_level', _level??'');
+  }
+
+  Future<void> PageAdvanced() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("SelectionPageChoice", _choice!);
+    prefs.setString("SelectionPageLevel", _level!);
+  }
+
+
+
   @override
+  void initState() {
+    super.initState();
+
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Home Page',
-          style: TextStyle(
-            fontSize: 12,
-          ),
-        ),
+
       ),
       body: SingleChildScrollView(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
               width: 375.0,
-              height: 300.0,
-              color: Colors.white,
-            ),
-            Container(
-              width: 375.0,
-              height: 200.0,
-              child: Row(
+              height: 500.0,
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Container(
                     child: Column(
@@ -48,12 +73,12 @@ class _MyHomePageState extends State<MyHomePage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => SelectionPage(),
+                                builder: (context) => Question1Page(),
                               ),
                             );
                           },
                           style: TextButton.styleFrom(
-                            minimumSize: Size(170, 200),
+                            minimumSize: Size(350, 230),
                             backgroundColor: Colors.greenAccent, // Background color
                             primary: Colors.white, // Text color
                             textStyle: TextStyle(
@@ -65,7 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                           ),
                           child: const Text(
-                            "Initial Golf Questions",
+                            "Short Test",
                             style: TextStyle(
                               fontSize: 12,
                             ),
@@ -89,7 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             );
                           },
                           style: TextButton.styleFrom(
-                            minimumSize: Size(170, 200),
+                            minimumSize: Size(350, 230),
                             backgroundColor: Colors.cyan, // Background color
                             primary: Colors.white, // Text color
                             textStyle: TextStyle(
@@ -101,7 +126,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                           ),
                           child: const Text(
-                            "Recommendation",
+                            "Long Test",
                             style: TextStyle(
                               fontSize: 12,
                             ),
@@ -119,3 +144,4 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+

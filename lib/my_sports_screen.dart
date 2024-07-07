@@ -6,7 +6,6 @@ import '/route.dart';
 import 'package:app_v1/logging_record.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
-
 import 'logging_display.dart';
 
 class MySportsScreenPage extends StatefulWidget {
@@ -30,7 +29,6 @@ class _MySportsScreenPageState extends State<MySportsScreenPage> {
   }
   Future<void> saveUserSports() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setStringList('sports', sports);
     await prefs.setString('selected_sport', selectedSports);
   }
 
@@ -48,16 +46,13 @@ class _MySportsScreenPageState extends State<MySportsScreenPage> {
         .height;
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.white,
+
         ),
         body: Padding(
             padding: const EdgeInsets.all(0),
             child: Container(
                 decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/background_log.jpg'),
-                    fit: BoxFit.cover,
-                  ),
+
                   color: Colors.white,
                 ),
                 child: SizedBox(
@@ -116,7 +111,6 @@ class _MySportsScreenPageState extends State<MySportsScreenPage> {
                             color: Colors.black,
                           ),
                             Expanded(
-
                               child: Scrollbar(
                                 child: ListView.separated(
                                     itemCount: sports.length,
@@ -127,13 +121,14 @@ class _MySportsScreenPageState extends State<MySportsScreenPage> {
                                           title: Text('${sports[index]}'),
                                           trailing: IconButton(
                                             icon: const Icon(
-                                                Icons.ice_skating),
+                                                Icons.arrow_circle_right_outlined),
                                             onPressed: () {
+                                              selectedSports =sports[index];
+                                              saveUserSports();
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-
                                                         LoggingDisplayPage(
                                                             selected_sports:
                                                             sports[index])),

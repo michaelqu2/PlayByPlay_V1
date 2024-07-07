@@ -23,7 +23,7 @@ class _InitialQuestionsGolfDisplayPageState
     extends State<InitialQuestionsGolfDisplayPage> {
   late final OpenAI _openAI;
   String? GPTresponse;
-  List<String> response = [];
+  List<String> responses = [];
   bool isLoading = true;
   List<bool> return_response = [];
 
@@ -51,11 +51,11 @@ class _InitialQuestionsGolfDisplayPageState
     setState(() {
       try {
         Map<String, dynamic> resultMap =
-            Map<String, dynamic>.from(json.decode(result.toString()));
-        response = List<String>.from(resultMap['improvements']);
-        return_response = List.generate(response.length, (index) => false);
+            Map<String, dynamic>.from(json.decode(result));
+        responses = List<String>.from(resultMap['Improvements']);
+        return_response = List.generate(responses.length, (index) => false);
         isLoading = false;
-        print(response);
+        print(responses);
       } catch (e) {
         print("Error Parsing JSON $e");
       }
@@ -66,17 +66,17 @@ class _InitialQuestionsGolfDisplayPageState
   void handleButtonPress() {
     for (int i = 0; i < return_response.length; i++) {
       if (return_response[i]) {
-        saveImprovements(response[i]);
+        saveImprovements(responses[i]);
       }
     }
   }
 
   Future<void> saveImprovements(String Sports) async {
     final prefs = await SharedPreferences.getInstance();
-    List<String> savedImprovements = prefs.getStringList("improvements") ?? [];
+    List<String> savedImprovements = prefs.getStringList("Improvements") ?? [];
     if (!savedImprovements.contains(Sports)) {
       savedImprovements.add(Sports);
-      prefs.setStringList("improvements", savedImprovements);
+      prefs.setStringList("Improvements", savedImprovements);
       print("Improvement Saved");
     } else {
       print("Improvement is already saved");
@@ -111,26 +111,32 @@ class _InitialQuestionsGolfDisplayPageState
       appBar: AppBar(
         backgroundColor: Colors.grey,
       ),
-      body: SingleChildScrollView(
+      body: Padding(
+        padding: const EdgeInsets.all(5),
         child: !isLoading
             ? ListView(
-                children: [
-                  ListView.builder(
-                      itemCount: response.length,
-                      physics: ClampingScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return CheckboxListTile(value: return_response[index], onChanged: (value){
-                          setState(() {
-                            return_response[index] = value?? false;
-                            handleButtonPress();
-                          });
-                        });
-                      }),
+                children: <Widget>[
+                  Expanded(
+                    child: ListView.builder(
+                        itemCount: responses.length,
+                        physics: ClampingScrollPhysics(),
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return CheckboxListTile(
+                              title: Text(responses[index]),
+                              value: return_response[index],
+                              onChanged: (value) {
+                                setState(() {
+                                  return_response[index] = value ?? false;
+                                  handleButtonPress();
+                                });
+                              });
+                        }),
+                  ),
                   ElevatedButton(
                       onPressed: () {
                         handleButtonPress();
-                        Navigator.push(
+                        Navigator.pop(
                           context,
                           MaterialPageRoute(builder: (context) => MyHomePage()),
                         ).then((value) => Navigator.pop(context));
