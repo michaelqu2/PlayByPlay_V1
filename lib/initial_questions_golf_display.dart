@@ -136,7 +136,7 @@ class _InitialQuestionsGolfDisplayPageState
                   ElevatedButton(
                       onPressed: () {
                         handleButtonPress();
-                        Navigator.pop(
+                        Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => MyHomePage()),
                         ).then((value) => Navigator.pop(context));
