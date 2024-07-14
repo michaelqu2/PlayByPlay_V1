@@ -9,14 +9,14 @@ import 'dart:convert';
 import 'initial_questions_golf_display.dart';
 import 'recommend_choice.dart';
 
-class Question1Page extends StatefulWidget {
-  const Question1Page({super.key});
+class QuestionShortPage extends StatefulWidget {
+  const QuestionShortPage({super.key});
 
   @override
-  State<Question1Page> createState() => _Question1PageState();
+  State<QuestionShortPage> createState() => _QuestionShortPageState();
 }
 
-class _Question1PageState extends State<Question1Page> {
+class _QuestionShortPageState extends State<QuestionShortPage> {
   late final OpenAI _openAI;
   String? GPTresponse;
   List<String> questions = [];

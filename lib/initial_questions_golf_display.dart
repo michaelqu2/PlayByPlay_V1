@@ -65,9 +65,7 @@ class _InitialQuestionsGolfDisplayPageState
 
   void handleButtonPress() {
     for (int i = 0; i < return_response.length; i++) {
-      if (return_response[i]) {
-        saveImprovements(responses[i]);
-      }
+      saveImprovements(responses[i]);
     }
   }
 

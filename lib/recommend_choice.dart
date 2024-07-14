@@ -4,7 +4,7 @@ import '/initial_questions_golf.dart';
 import 'package:app_v1/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:app_v1/Setting_Buttons/sports_setting.dart';
-import 'question_1.dart';
+import 'question_short.dart';
 
 
 class RecommendChoicePagePage extends StatefulWidget {
@@ -73,7 +73,7 @@ class _RecommendChoicePageState extends State<RecommendChoicePagePage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => Question1Page(),
+                                builder: (context) => QuestionShortPage(),
                               ),
                             );
                           },
