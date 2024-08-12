@@ -83,7 +83,7 @@ class _QuestionShortPageState extends State<QuestionShortPage> {
   List<TextEditingController> answersController = [];
   bool isLoading = false;
 
-  Future<void> _handleInitialMessage() async {
+  _handleInitialMessage() {
   //   final prefs = await SharedPreferences.getInstance();
   //   String userPrompt = '''
   //       This is a list of most factors that might affect an individual's potential in each sport and how likely they will succeed. Use this list and create multiple questions to find the information listed. The requirement for the number of questions is listed after the list. The responses to the questions would be collected and further analyzed to determine the best-fit sport for them. Make sure to phrase all questions such that a person without any medical background would understand. For questions that need to be rated, make the rating on a scale of 10 (however do not make most questions on a scale). 1.Physical Attributes: Muscle Fiber Composition, Height, Weight, Leverage and Mechanical Advantage, Body Proportions, Strength Potential, Speed and Agility, Hand-Eye Coordination, Fine Motor Control, Tracking Moving Objects, Dynamic Balance, Lateral Quickness, Reaction Time and Reflexes, Visual Processing Speed, Auditory and Tactile Reaction, Cardiovascular Endurance, Aerobic Capacity, Anaerobic Threshold, Muscular Strength, Power, Range of Motion, Joint Stability 2.Psychological Factors: Resilience, Handling Pressure, Confidence and Self-Belief, Intrinsic/Extrinsic Motivation, Commitment to Training, Goal-Setting and Perseverance, Maintaining Focus, Attention to Detail, Mental Preparation 3.Skill Acquisition and Technique: Quick Adaptation 4.Nutrition and Physical Health: Nutrient Intake, Injury Risks, Rehabilitation, Fitness Levels, Impact of Chronic Conditions 5.Environmental Factors: Quality of Facilities, Suitable Equipment, Family Support, Community Influence, Training Environment, Regional Talent Pool  6.Living/Income situation: Access to facilities, Access to sports training, Access to sports development, Living environment/condition 7. Support: Sports Psychology, Physiotherapy and Medical Support 8. Competition and Exposure: Competitive Exposure, Progression Opportunities, Global Competition, Local vs. National Circuits 9. External Factors, Funding for Training, Balancing Priorities, Consistency in Training 10. Preference: Individual/Team, Competitive/recreational, Popularity, Physical Contact, Social/communication, Indoor/Outdoor, Top priority, Access to competitive environment,  Endurance/Intimate, Technical skill/Strength
@@ -124,14 +124,9 @@ class _QuestionShortPageState extends State<QuestionShortPage> {
   //   print(result);
   //
     setState(() {
-      try {
         // Map<String, dynamic> resultMap = Map<String, dynamic>.from(json.decode(result));
         questions.addAll(questions);
         answersController.addAll(List.generate(questions.length, (index) => TextEditingController()));
-      } catch (e) {
-        print("Error Parsing JSON $e");
-        showAlertDialogue(context);
-      }
     });
   }
 
@@ -204,16 +199,16 @@ class _QuestionShortPageState extends State<QuestionShortPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text("Question ${index + 1}: ${questions[index]}"),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 5),
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  hintText: "Type Your Answer Here",
-                                ),
-                                controller: answersController[index],
-                                onChanged: (value) {},
-                              ),
-                            )
+                            // Padding(
+                            //   padding: const EdgeInsets.only(bottom: 5),
+                            //   child: TextField(
+                            //     decoration: InputDecoration(
+                            //       hintText: "Type Your Answer Here",
+                            //     ),
+                            //     controller: answersController[index],
+                            //     onChanged: (value) {},
+                            //   ),
+                            // )
                           ],
                         );
                       }),
