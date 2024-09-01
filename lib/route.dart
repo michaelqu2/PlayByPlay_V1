@@ -6,8 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '/logging_display.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:app_v1/my_sports_screen.dart';
-
-
+import 'statistics.dart';
 
 class RoutePage extends StatefulWidget {
   const RoutePage({super.key});
@@ -17,54 +16,129 @@ class RoutePage extends StatefulWidget {
 }
 
 class _RoutePageState extends State<RoutePage> {
-
-
   int pageIndex = 0;
   List<Widget> pages = [
     const MyHomePage(),
+    const StatisticsPage(),
     const MySportsScreenPage(),
     const ProfilePage(),
   ];
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: pages[pageIndex],
-      bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: const Color.fromRGBO(255, 255, 255, 1),
-
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              backgroundColor: Colors.blue,
-              label: "home",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.add,
-                fill: 1,
-              ),
-              label: "logging",
-              backgroundColor: Colors.blue,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: "profile",
-              backgroundColor: Colors.blue,
-            ),
-          ],
-          currentIndex: pageIndex,
-          selectedItemColor: const Color.fromRGBO(255, 0, 0, 1),
-          onTap: (int index) {
-            setState(() {
-              pageIndex = index;
-            });
-          }),
+      body: Stack(
+        children: [
+          pages[pageIndex], // Main content
+          Positioned(
+              left: 20,
+              right: 20,
+              bottom: 20,
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 30, top: 0),
+                child: Container(
+                    height: 80,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 10,
+                          spreadRadius: 5,
+                        ),
+                      ],
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(30),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: BottomNavigationBar(
+                            backgroundColor: Colors.black,
+                            type: BottomNavigationBarType.fixed, // Ensures items are evenly spaced
+                            selectedFontSize: 0, // Adjust font size for selected items
+                            unselectedFontSize: 0,
+                            showSelectedLabels: false, // Hide labels
+                            showUnselectedLabels: false,
+                            items: <BottomNavigationBarItem>[
+                              BottomNavigationBarItem(
+                                icon: Container(
+                                  decoration: BoxDecoration(
+                                    // color: pageIndex == 0 ? Colors.white : Colors.transparent, // Highlight the selected icon with a white background
+                                    shape: BoxShape.circle,
+                                  ),
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Icon(
+                                    Icons.home_outlined,
+                                    size: 24,
+                                    // color: pageIndex == 0 ? Colors.black : Colors.white, // Adjust icon color
+                                  ),
+                                ),
+                                label: "",
+                              ),
+                              BottomNavigationBarItem(
+                                icon: Container(
+                                  decoration: BoxDecoration(
+                                    // color: pageIndex == 1 ? Colors.white : Colors.transparent,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Icon(
+                                    Icons.line_axis_outlined,
+                                    size: 24,
+                                    // color: pageIndex == 1 ? Colors.black : Colors.white,
+                                  ),
+                                ),
+                                label: "",
+                              ),
+                              BottomNavigationBarItem(
+                                icon: Container(
+                                  decoration: BoxDecoration(
+                                    // color: pageIndex == 2 ? Colors.white : Colors.transparent,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Icon(
+                                    Icons.add,
+                                    size: 24,
+                                    // color: pageIndex == 2 ? Colors.black : Colors.white,
+                                  ),
+                                ),
+                                label: "",
+                              ),
+                              BottomNavigationBarItem(
+                                icon: Container(
+                                  decoration: BoxDecoration(
+                                    // color: pageIndex == 3 ? Colors.white : Colors.transparent,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Icon(
+                                    Icons.person_outline,
+                                    size: 24,
+                                    // color: pageIndex == 3 ? Colors.black : Colors.white,
+                                  ),
+                                ),
+                                label: "",
+                              ),
+                            ],
+                            currentIndex: pageIndex,
+                            selectedItemColor: Colors.red,
+                            unselectedItemColor: Colors.white,
+                            onTap: (int index) {
+                              setState(() {
+                                pageIndex = index;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                    )),
+              )),
+        ],
+      ),
     );
   }
 }

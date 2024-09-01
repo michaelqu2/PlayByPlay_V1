@@ -7,14 +7,14 @@ import 'golf_tips.dart';
 import 'machine_learning.dart';
 import 'package:flutter/material.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class StatisticsPage extends StatefulWidget {
+  const StatisticsPage({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<StatisticsPage> createState() => _StatisticsPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _StatisticsPageState extends State<StatisticsPage> {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;

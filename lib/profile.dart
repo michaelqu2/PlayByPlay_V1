@@ -37,7 +37,6 @@ class _ProfilePageState extends State<ProfilePage> {
     _loadInfo();
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors. white,
           actions: <Widget>[
             Padding(
                 padding: const EdgeInsets.only(right: 20),
@@ -62,7 +61,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   Container(
                       width: 175.0,
                       height: 200.0,
-                      color: Colors.white,
                       alignment: Alignment.center,
                       child: Column(
                         children: [
@@ -92,12 +90,10 @@ class _ProfilePageState extends State<ProfilePage> {
                   Container(
                       width: 200.0,
                       height: 200.0,
-                      color: Colors.white,
                       child: (Column(children: [
                         Container(
                             width: 225.0,
                             height: 150.0,
-                            color: Colors.white,
                             alignment: Alignment.bottomCenter,
                             child: Column(children: [
                               Text(
@@ -122,7 +118,6 @@ class _ProfilePageState extends State<ProfilePage> {
                         Container(
                             width: 225.0,
                             height: 50.0,
-                            color: Colors.white,
                             child: Row(children: [
                               TextButton(
                                 style: TextButton.styleFrom(
@@ -173,7 +168,6 @@ class _ProfilePageState extends State<ProfilePage> {
             Container(
                 width: 375,
                 height: 300,
-                color: Colors.white,
                 child: Column(
                   children: [
                     const Text(

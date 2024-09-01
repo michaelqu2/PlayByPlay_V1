@@ -73,6 +73,11 @@ class _SportLogsPageState extends State<SportLogsPage> {
   }
 
   void getGolfChartData() {
+    setState(() {
+      chartData = {};
+      _isLoading = true;
+    });
+
     Map dateMap = logs;
     dateMap.forEach((date, fieldMap) {
       fieldMap.forEach((field, value) {
@@ -127,6 +132,8 @@ class _SportLogsPageState extends State<SportLogsPage> {
                             );
                           }).toList(),
                         ),
+
+
                       Expanded(
                         child: SingleChildScrollView(
                           child: Padding(

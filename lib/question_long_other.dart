@@ -9,61 +9,26 @@ import 'dart:convert';
 import 'initial_questions_golf_display.dart';
 import 'recommend_choice.dart';
 import 'dart:async';
+import 'question_long_choice.dart';
 import 'question_short_display.dart';
 
-class QuestionShortPage extends StatefulWidget {
-  const QuestionShortPage({super.key});
+class QuestionLongOtherPage extends StatefulWidget {
+  const QuestionLongOtherPage({super.key});
 
   @override
-  State<QuestionShortPage> createState() => _QuestionShortPageState();
+  State<QuestionLongOtherPage> createState() => _QuestionLongOtherPageState();
 }
 
-class _QuestionShortPageState extends State<QuestionShortPage> {
+class _QuestionLongOtherPageState extends State<QuestionLongOtherPage> {
   late final OpenAI _openAI;
   String? GPTresponse;
   List<String> questions = [
-    "How would you rate your muscle definition on a scale of 1 to 10, with 10 being very defined?",
-    "What is your height in feet and inches?",
-    "What is your current weight in pounds?",
-    "How would you describe your ability to quickly change direction while running or moving?",
-    "How would you rate your hand-eye coordination on a scale of 1 to 10, with 10 being excellent?",
-    "How would you rate your overall speed and agility on a scale of 1 to 10, with 10 being very fast and agile?",
-    "How well can you maintain balance while moving or performing complex tasks?",
-    "How quickly can you react to sudden changes or surprises, on a scale of 1 to 10?",
-    "How would you rate your ability to track and follow moving objects, such as a ball or a runner, on a scale of 1 to 10?",
-    "How would you describe your overall cardiovascular endurance?",
-    "How would you rate your ability to stay focused on a single task or goal without getting distracted, on a scale of 1 to 10?",
-    "How would you rate your ability to quickly adapt to new skills or techniques on a scale of 1 to 10?",
-    "How would you describe your overall strength compared to others your age?",
-    "How would you rate your range of motion in your joints on a scale of 1 to 10, with 10 being very flexible?",
-    "How would you describe your ability to control and coordinate fine movements, such as typing or playing a musical instrument?",
-    "How would you rate your overall muscular strength on a scale of 1 to 10, with 10 being very strong?",
-    "How well do you handle intense physical activity or exercise without getting tired quickly?",
-    "How stable are your joints during physical activities, on a scale of 1 to 10, with 10 being very stable?",
-    "How would you rate your aerobic capacity (endurance in activities like running or swimming) on a scale of 1 to 10?",
-    "How would you rate your anaerobic threshold (ability to perform high-intensity activities) on a scale of 1 to 10?",
-    "How would you rate your resilience (ability to bounce back from setbacks) on a scale of 1 to 10?",
-    "How do you handle pressure during important events or competitions?",
-    "How confident are you in your abilities when performing in front of others, on a scale of 1 to 10?",
-    "How motivated are you to achieve your sports goals, on a scale of 1 to 10?",
-    "How committed are you to your training routine, on a scale of 1 to 10?",
-    "How well do you set and follow through with goals, on a scale of 1 to 10?",
-    "How would you rate your ability to stay focused during training and competition, on a scale of 1 to 10?",
-    "How well do you prepare mentally before a competition or important event, on a scale of 1 to 10?",
-    "How do you manage distractions or interruptions during performance or training?",
-    "How would you rate your perseverance in overcoming challenges or difficulties in sports, on a scale of 1 to 10?",
-    "How quickly do you pick up new techniques or skills in sports or physical activities, on a scale of 1 to 10?",
-    "How often do you consume a balanced diet that supports your physical activities?",
-    "How well do you manage injury risks and recovery from injuries?",
-    "How would you rate your current fitness level on a scale of 1 to 10?",
-    "How do chronic health conditions impact your ability to participate in sports?",
-    "How well do you understand the nutritional needs of your body for optimal performance?",
+    "Do you have any chronic health conditions that impact your ability to participate in sports?",
     "How easy is it for you to access sports facilities or gyms in your area?",
     "How accessible is sports training or coaching in your location?",
     "How would you rate your living environment in terms of supporting your sports activities, on a scale of 1 to 10?",
     "How does your current living condition affect your ability to train regularly?",
     "How supportive is your living situation for pursuing sports development opportunities?",
-    "Do you have access to a sports psychologist or mental health support for athletes?",
     "Do you receive regular physiotherapy or medical support for sports-related issues?",
     "How often do you participate in competitive sports events or matches?",
     "How many opportunities do you have to progress to higher levels of competition?",
@@ -108,6 +73,35 @@ class _QuestionShortPageState extends State<QuestionShortPage> {
     });
   }
 
+  void _saveData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // Save the test names
+    await prefs.setStringList('Long Other', questions);
+
+    // Save the test inputs
+
+    await prefs.setStringList(
+        'Long Other Input',
+        answersController.map((controller) => controller.text).toList());
+
+    bool isLongOther = true;
+    await prefs.setBool('Long Other Check', isLongOther);
+
+    print("Data saved successfully!");
+  }
+
+  void _printTestData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String>? testList = prefs.getStringList('Long Psy');
+    List<String>? testOutputList = prefs.getStringList('Long Psy Input');
+
+    if (testList != null && testOutputList != null) {
+      for (int i = 0; i < testList.length; i++) {
+        print(testList[i] + testOutputList[i]);
+      }
+    }
+  }
   List<String> getAnswers() {
     return answersController.map((controller) => controller.text).toList();
   }
@@ -188,20 +182,21 @@ class _QuestionShortPageState extends State<QuestionShortPage> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      List<String> saved_answers = getAnswers();
-                      print(saved_answers);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => QuestionShortDisplayPage(
-                            questions: questions,
-                            answers: saved_answers,
-                          ),
-                        ),
-                      ).then((value) => Navigator.pop(context));
+                      _saveData();
                     },
-                    child: const Text("Get Suggestion"),
-                  )
+                    child: Text('Save'), // The child parameter should be here
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      _printTestData();
+                      Navigator.pop(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                              const QuestionLongChoicePage()));
+                    },
+                    child: Text('Print'), // The child parameter should be here
+                  ),
                 ],
               )
             : Center(

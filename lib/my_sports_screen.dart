@@ -53,10 +53,6 @@ class _MySportsScreenPageState extends State<MySportsScreenPage> {
         body: Padding(
             padding: const EdgeInsets.all(0),
             child: Container(
-                decoration: BoxDecoration(
-
-                  color: Colors.white,
-                ),
                 child: SizedBox(
                     child: Padding(
                         padding: const EdgeInsets.all(0),
@@ -73,7 +69,6 @@ class _MySportsScreenPageState extends State<MySportsScreenPage> {
                                   Container(
                                       width: 150.0,
                                       height: 20,
-                                      color: Colors.white,
                                       child: Row(
                                           crossAxisAlignment:
                                           CrossAxisAlignment.start,

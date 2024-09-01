@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'question_long_choice.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 void main() {
   runApp(QuestionLongTestPage());
@@ -12,23 +15,8 @@ class QuestionLongTestPage extends StatefulWidget {
 }
 
 class _QuestionLongTestPageState extends State<QuestionLongTestPage> {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Data Sheet'),
-        ),
-        body: DataSheet(),
-      ),
-    );
-  }
-}
-
-class DataSheet extends StatelessWidget {
   final List<Map<String, String>> data = [
     {"Category": "General Information", "Test/Measurement": "Name:"},
-    {"Category": "", "Test/Measurement": "Date:"},
     {"Category": "", "Test/Measurement": "Age:"},
     {"Category": "", "Test/Measurement": "Gender:"},
     {"Category": "", "Test/Measurement": "Height (cm/in):"},
@@ -37,10 +25,11 @@ class DataSheet extends StatelessWidget {
     {"Category": "", "Test/Measurement": "Squats Test"},
     {"Category": "", "Test/Measurement": "Planks Test"},
     {"Category": "", "Test/Measurement": "Running Performance"},
-    {"Category": "", "Test/Measurement": "Height Measurement"},
-    {"Category": "", "Test/Measurement": "Weight Measurement"},
     {"Category": "", "Test/Measurement": "Body Composition (BIA)"},
-    {"Category": "Motor Skills and Coordination", "Test/Measurement": "Reaction Time Test"},
+    {
+      "Category": "Motor Skills and Coordination",
+      "Test/Measurement": "Reaction Time Test"
+    },
     {"Category": "", "Test/Measurement": "Agility T-Test"},
     {"Category": "", "Test/Measurement": "Illinois Agility Test"},
     {"Category": "", "Test/Measurement": "Lateral Change of Direction Test"},
@@ -61,40 +50,89 @@ class DataSheet extends StatelessWidget {
     {"Category": "", "Test/Measurement": "HIIT Performance"},
   ];
 
-  final Map<String, String> instructions = {
-    "Name:": "Enter your full name.",
-    "Date:": "Enter the current date.",
-    "Age:": "Enter your age.",
-    "Gender:": "Select your gender.",
-    "Height (cm/in):": "Measure your height in centimeters or inches.",
-    "Weight (kg/lbs):": "Measure your weight in kilograms or pounds.",
-    "Muscle Fiber Composition - Push-Ups": "Do as many push-ups as you can in one go. Count the reps.",
-    "Muscle Fiber Composition - Squats": "Do as many squats as you can in one go. Count the reps.",
-    "Muscle Fiber Composition - Planks": "Hold a plank position as long as you can. Record the time in seconds.",
-    "Bone Density - Running Performance": "Run a specified distance and record the time in minutes per kilometer.",
-    "Height Measurement": "Measure your height.",
-    "Weight Measurement": "Measure your weight.",
-    "Body Composition (BIA)": "Measure body composition using Bioelectrical Impedance Analysis (BIA).",
-    "Reaction Time Test": "Perform a reaction time test. Record the reaction time.",
-    "Agility T-Test": "Perform the T-Test for agility. Record the time.",
-    "Illinois Agility Test": "Perform the Illinois Agility Test. Record the time.",
-    "Lateral Change of Direction Test": "Perform the Lateral Change of Direction Test. Record the time.",
-    "Online Reaction Time Tests": "Perform online reaction time tests. Record the results.",
-    "Jump and Landing Test": "Perform a jump and landing test. Record the results.",
-    "One-Leg Stand Test": "Perform the One-Leg Stand Test. Record the time.",
-    "Cooper Test": "Perform the Cooper Test for endurance. Record the distance covered.",
-    "One-Rep Max": "Determine your one-repetition maximum for strength exercises.",
-    "Handgrip Strength": "Measure handgrip strength using a dynamometer.",
-    "Vertical Jump": "Perform a vertical jump. Measure and record the height jumped.",
-    "Sit and Reach Test": "Perform the Sit and Reach Test for flexibility. Record the distance reached.",
-    "Joint Range of Motion": "Measure joint range of motion for specific joints.",
-    "Functional Movement Screen": "Perform the Functional Movement Screen. Record the results.",
-    "Standing Broad Jump": "Perform the Standing Broad Jump. Measure and record the distance jumped.",
-    "Wall Sit Test": "Perform the Wall Sit Test. Record the time.",
-    "5-10-5 Shuttle Run": "Perform the 5-10-5 Shuttle Run. Record the time.",
-    "Talk Test": "Perform the Talk Test during exercise. Record observations.",
-    "HIIT Performance": "Perform and record results from High-Intensity Interval Training (HIIT).",
-  };
+  final Map<String, TextEditingController> _controllers = {};
+
+  @override
+  void initState() {
+    super.initState();
+    for (var row in data) {
+      _controllers[row['Test/Measurement']!] = TextEditingController();
+    }
+  }
+
+  @override
+  void dispose() {
+    for (var controller in _controllers.values) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Data Sheet'),
+        ),
+        body: Column(
+          children: [
+            Expanded(
+              child: DataSheet(data: data, controllers: _controllers),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                _saveData();
+                _printTestData();
+                Navigator.pop(context,
+                    MaterialPageRoute(builder: (context) => const QuestionLongChoicePage()));
+              },
+              child: Text('Save'), // The child parameter should be here
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _saveData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // Save the test names
+    List<String> testList = data.map((row) => row['Test/Measurement']!)
+        .toList();
+    await prefs.setStringList('Long Test', testList);
+
+    // Save the test inputs
+    List<String> testInputList = _controllers.values.map((
+        controller) => controller.text).toList();
+    await prefs.setStringList('Long Test Input', testInputList);
+
+    bool isLongTest = true;
+    await prefs.setBool('Long Test Check', isLongTest);
+
+
+    print("Data saved successfully!");
+  }
+}
+
+void _printTestData() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  List<String>? testList = prefs.getStringList('Long Test');
+  List<String>? testOutputList = prefs.getStringList('Long Test Input');
+
+  if (testList != null && testOutputList != null) {
+    for (int i = 0; i < testList.length; i++) {
+      print(testList[i]+ testOutputList[i]);
+    }
+  }
+}
+
+class DataSheet extends StatelessWidget {
+  final List<Map<String, String>> data;
+  final Map<String, TextEditingController> controllers;
+
+  const DataSheet({required this.data, required this.controllers});
 
   @override
   Widget build(BuildContext context) {
@@ -120,8 +158,9 @@ class DataSheet extends StatelessWidget {
     String? currentCategory;
 
     for (var row in data) {
+      String testMeasurement = row['Test/Measurement']!;
+
       if (row['Category'] != currentCategory) {
-        // Add a separator row if the category changes
         currentCategory = row['Category'];
         if (currentCategory?.isNotEmpty == true) {
           rows.add(DataRow(
@@ -142,36 +181,48 @@ class DataSheet extends StatelessWidget {
         }
       }
 
-      // Add the test/measurement row
       rows.add(DataRow(cells: [
         DataCell(
           Container(
-            padding: EdgeInsets.only(left: 0), // Adjust padding to push the icon closer to the left
+            padding: EdgeInsets.only(left: 0),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                IconButton(
-                  icon: Icon(Icons.info, size: 20),
-                  onPressed: () {
-                    _showInstructions(context, row['Test/Measurement'] ?? '');
-                  },
-                ),
-                SizedBox(width: 0), // Adds a small space between the icon and text
+                SizedBox(width: 0),
               ],
             ),
           ),
         ),
-        DataCell(Container(
-          width: 150, // Adjust width for the Test/Measurement column
-          child: Text(row['Test/Measurement'] ?? ''),
-        )),
+        DataCell(
+          Row(
+            children: [
+              Expanded(
+                child: Text(testMeasurement),
+              ),
+              IconButton(
+                icon: Icon(Icons.info, size: 20),
+                onPressed: () {
+                  _showInstructions(context, testMeasurement);
+                },
+              ),
+              SizedBox(width: 5),
+            ],
+          ),
+        ),
         DataCell(
           Container(
-            width: 150, // Adjust width for the Input column
+            width: 125,
+            height: 40,
             child: TextField(
+              controller: controllers[testMeasurement],
+              textAlign: TextAlign.center,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: 'Enter result',
+                contentPadding: EdgeInsets.symmetric(vertical: 12),
+              ),
+              style: TextStyle(
+                fontSize: 14.0,
               ),
             ),
           ),
@@ -183,21 +234,31 @@ class DataSheet extends StatelessWidget {
   }
 
   void _showInstructions(BuildContext context, String test) {
+    final instructions = {
+      "Name:": "Enter your full name.",
+      "Age:": "Enter your age.",
+      "Gender:": "Select your gender.",
+      "Height (cm/in):": "Measure your height in centimeters or inches.",
+      "Weight (kg/lbs):": "Measure your weight in kilograms or pounds.",
+      // ... add other instructions here ...
+    };
+
     final instruction = instructions[test];
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Instructions'),
-        content: Text(instruction ?? 'No instructions available'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text('OK'),
+      builder: (context) =>
+          AlertDialog(
+            title: Text('Instructions'),
+            content: Text(instruction ?? 'No instructions available'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK'),
+              ),
+            ],
           ),
-        ],
-      ),
     );
   }
 }

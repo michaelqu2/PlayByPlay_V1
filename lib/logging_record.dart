@@ -69,7 +69,7 @@ class _LoggingRecordPageState extends State<LoggingRecordPage> {
     for (var field in sportsFields[selectedSport]!) {
       data[field] = textcontroller[field]!.text;
     }
-    logs[date] = data;
+    logs[date.toString()] = data;
     prefs.setString(selectedSport, jsonEncode(logs));
   }
 

@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:app_v1/Setting_Buttons/sports_setting.dart';
 import 'question_short.dart';
 import 'question_long_test.dart';
-
+import 'question_long_choice.dart';
 
 class RecommendChoicePagePage extends StatefulWidget {
   const RecommendChoicePagePage({super.key});
@@ -109,7 +109,7 @@ class _RecommendChoicePageState extends State<RecommendChoicePagePage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => QuestionLongTestPage(),
+                                builder: (context) => QuestionLongChoicePage(),
                               ),
                             );
                           },
