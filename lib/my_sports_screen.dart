@@ -61,7 +61,7 @@ class _MySportsScreenPageState extends State<MySportsScreenPage> {
                               height: 70,
                               padding: const EdgeInsets.only(
                                   left: 20, right: 20, top: 0, bottom: 0),
-                              child: Column(
+                              child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment:
                                 MainAxisAlignment.spaceBetween,
@@ -79,7 +79,7 @@ class _MySportsScreenPageState extends State<MySportsScreenPage> {
                                           ])),
                                   Container(
                                       width: 100.0,
-                                      height: 50.0,
+                                      height: 100.0,
                                       color: Colors.greenAccent,
                                       child: Row(
                                           crossAxisAlignment:
@@ -100,13 +100,6 @@ class _MySportsScreenPageState extends State<MySportsScreenPage> {
                                           ])),
                                 ],
                               )),
-                          const Divider(
-                            height: 50,
-                            thickness: 2,
-                            indent: 0,
-                            endIndent: 0,
-                            color: Colors.black,
-                          ),
                             Expanded(
                               child: Scrollbar(
                                 child: ListView.separated(
