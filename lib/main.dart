@@ -16,26 +16,48 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color color1 = Color(0xFFE8E8E8);
+    Color color2 = Color(0xFFF0F0F0);
+    Color color3 = Color(0xFFefefef);
+
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-            seedColor: Color.fromRGBO(230 , 230, 230, 1),
+          seedColor: color3,
           brightness: Brightness.light,
-
+          background: color3,      // Background color
+          surface: color3,         // Surface color
         ),
         appBarTheme: AppBarTheme(
-          backgroundColor: Colors.white,
+        ),
+        textTheme: TextTheme(
+          displayLarge: TextStyle(
+            fontSize: 32.0,
+            fontWeight: FontWeight.bold,
+            color: Colors.black, // Text color for large display
+            fontFamily: 'Roboto', // Use any custom font
+          ),
+          bodyLarge: TextStyle(
+            fontSize: 18.0,
+            color: Colors.black, // Default body text color
+            fontFamily: 'Roboto', // Use any custom font
+          ),
+          bodyMedium: TextStyle(
+            fontSize: 16.0,
+            color: Colors.grey[800], // A slightly different body text color
+            fontFamily: 'Roboto', // Use any custom font
+          ),
         ),
         primaryTextTheme: const TextTheme(
-            bodyMedium: TextStyle(
-          color: Colors.black,
-        )),
+          bodyMedium: TextStyle(
+            color: Colors.black,
+            fontFamily: 'Roboto', // Specify custom font
+          ),
+        ),
         useMaterial3: true,
       ),
       home: const RoutePage(),
     );
   }
 }
-
-

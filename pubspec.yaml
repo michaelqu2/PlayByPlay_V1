@@ -70,6 +70,10 @@ flutter:
   assets:
     - assets/.env.example
     - assets/background_log.jpg
+    - assets/sports_background1.jpg
+    - assets/sports_background2.jpg
+    - assets/sports_background3.jpg
+    - assets/sports_background4.jpg
 
   # To add assets to your application, add an assets section, like this:
 

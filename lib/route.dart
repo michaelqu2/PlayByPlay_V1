@@ -56,7 +56,7 @@ class _RoutePageState extends State<RoutePage> {
                         child: Align(
                           alignment: Alignment.center,
                           child: BottomNavigationBar(
-                            backgroundColor: Colors.black,
+                            backgroundColor: Colors.white,
                             type: BottomNavigationBarType.fixed, // Ensures items are evenly spaced
                             selectedFontSize: 0, // Adjust font size for selected items
                             unselectedFontSize: 0,
@@ -126,7 +126,7 @@ class _RoutePageState extends State<RoutePage> {
                             ],
                             currentIndex: pageIndex,
                             selectedItemColor: Colors.red,
-                            unselectedItemColor: Colors.white,
+                            unselectedItemColor: Colors.black,
                             onTap: (int index) {
                               setState(() {
                                 pageIndex = index;
