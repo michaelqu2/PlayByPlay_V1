@@ -28,7 +28,6 @@ class _QuestionLongOtherPageState extends State<QuestionLongOtherPage> {
     "How accessible is sports training or coaching in your location?",
     "How would you rate your living environment in terms of supporting your sports activities, on a scale of 1 to 10?",
     "How does your current living condition affect your ability to train regularly?",
-    "How supportive is your living situation for pursuing sports development opportunities?",
     "Do you receive regular physiotherapy or medical support for sports-related issues?",
     "How often do you participate in competitive sports events or matches?",
     "How many opportunities do you have to progress to higher levels of competition?",
@@ -39,9 +38,9 @@ class _QuestionLongOtherPageState extends State<QuestionLongOtherPage> {
     "How much support do you receive in terms of resources or facilities for training?",
     "Do you prefer participating in individual sports or team sports?",
     "Do you prefer engaging in competitive sports or recreational activities?",
-    "How important is physical contact in your preferred sport or activity?",
+    "Do you prefer physical contact in your preferred sport or activity?",
     "Do you prefer indoor or outdoor sports?",
-    "How important is having access to a competitive environment for you?",
+    "Do you prefer a competitive environment?",
     "Do you enjoy sports that require a high level of technical skill or strategy?",
     "Do you prefer sports that emphasize endurance or physical strength?",
     "How important is the social aspect of the sport to you, such as teamwork or communication?",
@@ -93,8 +92,8 @@ class _QuestionLongOtherPageState extends State<QuestionLongOtherPage> {
 
   void _printTestData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String>? testList = prefs.getStringList('Long Psy');
-    List<String>? testOutputList = prefs.getStringList('Long Psy Input');
+    List<String>? testList = prefs.getStringList('Long Other');
+    List<String>? testOutputList = prefs.getStringList('Long Other Input');
 
     if (testList != null && testOutputList != null) {
       for (int i = 0; i < testList.length; i++) {

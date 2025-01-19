@@ -33,10 +33,11 @@ dependencies:
   http: ^0.13.4
   image_picker: ^0.8.7+3
   shared_preferences: ^2.2.0
-  chat_gpt_sdk: ^2.0.6
+  chat_gpt_sdk: ^3.1.2
   flutter_dotenv: ^5.0.2
   syncfusion_flutter_charts: ^20.0.0
   win32: ^5.2.0
+  fl_chart: ^0.35.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -69,11 +70,32 @@ flutter:
 
   assets:
     - assets/.env.example
-    - assets/background_log.jpg
     - assets/sports_background1.jpg
     - assets/sports_background2.jpg
     - assets/sports_background3.jpg
     - assets/sports_background4.jpg
+    - assets/sports_background5.jpg
+    - assets/sports_background6.jpg
+    - assets/sports_background7.jpg
+    - assets/sports_background8.jpg
+    - assets/sports_background9.jpg
+    - assets/sports_background10.jpg
+    - assets/sports_background11.jpg
+    - assets/sports_background12.jpg
+    - assets/sports_background14.jpg
+    - assets/sports_background17.jpg
+    - assets/sports_background18.jpg
+    - assets/sports_background19.jpg
+    - assets/sports_background20.jpg
+    - assets/sports_background21.jpg
+    - assets/sports_background22.jpg
+    - assets/sports_background23.jpg
+    - assets/sports_background24.jpg
+    - assets/profile1.jpg
+    - assets/profile2.jpg
+    - assets/profile3.jpg
+    - assets/profile5.jpg
+    - assets/profile.png
 
   # To add assets to your application, add an assets section, like this:
 

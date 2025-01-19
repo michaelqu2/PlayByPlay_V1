@@ -29,10 +29,10 @@ packages:
     dependency: "direct main"
     description:
       name: chat_gpt_sdk
-      sha256: "3f78ebcd66cd22ed2407f4e69e7a612552670719382ab089e040338aa9d5aec0"
+      sha256: ca94d203c704acb1868ee8d5b0881aa18b3d0deb7f22c56489b2c2814ca4619f
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.8"
+    version: "3.1.2"
   clock:
     dependency: transitive
     description:
@@ -69,10 +69,10 @@ packages:
     dependency: transitive
     description:
       name: dio
-      sha256: e17f6b3097b8c51b72c74c9f071a605c47bcc8893839bd66732457a5ebe73714
+      sha256: "5598aa796bbf4699afd5c67c0f5f6e2ed542afc956884b9cd58c306966efc260"
       url: "https://pub.dev"
     source: hosted
-    version: "5.5.0+1"
+    version: "5.7.0"
   dio_web_adapter:
     dependency: transitive
     description:
@@ -81,6 +81,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.1"
+  equatable:
+    dependency: transitive
+    description:
+      name: equatable
+      sha256: c2b87cb7756efdf69892005af546c56c0b5037f54d2a88269b4f347a505e3ca2
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.5"
   fake_async:
     dependency: transitive
     description:
@@ -137,6 +145,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.9.3+2"
+  fl_chart:
+    dependency: "direct main"
+    description:
+      name: fl_chart
+      sha256: dc9ad1e0535e968a29d04adebc28cad2530d20c700e26b76abf09aef4bb57415
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.35.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -360,6 +376,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.0"
+  pedantic:
+    dependency: transitive
+    description:
+      name: pedantic
+      sha256: "67fc27ed9639506c856c840ccce7594d0bdcd91bc8d53d6e52359449a1d50602"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.11.1"
   platform:
     dependency: transitive
     description:
@@ -550,5 +574,5 @@ packages:
     source: hosted
     version: "1.0.4"
 sdks:
-  dart: ">=3.5.0 <4.0.0"
+  dart: ">=3.5.3 <4.0.0"
   flutter: ">=3.24.0"

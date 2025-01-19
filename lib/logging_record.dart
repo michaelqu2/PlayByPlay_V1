@@ -16,7 +16,7 @@ class LoggingRecordPage extends StatefulWidget {
 }
 
 class _LoggingRecordPageState extends State<LoggingRecordPage> {
-  String selectedSport = 'Swimming';
+  String selectedSport = 'Golf';
   String selectedSwimmingStyle = '';
   Map<String, TextEditingController> textcontroller = {};
 
@@ -26,11 +26,7 @@ class _LoggingRecordPageState extends State<LoggingRecordPage> {
   }
 
   Future<void> saveLog() async {
-    if (selectedSport == 'Swimming') {
-      addSwimmingLog();
-    } else if (selectedSport == 'Golf') {
-      await addGolfLog();
-    }
+    await addGolfLog();
     // Show a snack bar to notify log addition
     final snackBar = SnackBar(content: Text('Log is added'));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -63,13 +59,35 @@ class _LoggingRecordPageState extends State<LoggingRecordPage> {
     DateTime date = DateTime.now();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     Map<String, dynamic> data = {};
+
+    // Get the logs from SharedPreferences and decode it
     String jsonLog = prefs.getString(selectedSport) ?? '{}';
-    Map logs = jsonDecode(jsonLog);
-    addSport(prefs);
+    dynamic decodedLog = jsonDecode(jsonLog);
+
+    // Initialize logs as an empty Map<String, dynamic> if it's not already a Map
+    Map<String, dynamic> logs = {};
+
+    if (decodedLog is Map) {
+      // Cast the decoded log to Map<String, dynamic> explicitly
+      logs = Map<String, dynamic>.from(decodedLog);
+    } else if (decodedLog is List) {
+      // Handle the case where the data is a List (unexpected structure)
+      print("Unexpected List structure, converting to Map");
+      // Convert the list to a map if necessary, or log a warning
+    } else {
+      // Handle any other unexpected data type
+      print("Unexpected data structure: ${decodedLog.runtimeType}");
+    }
+
+    // Prepare data to add to logs
     for (var field in sportsFields[selectedSport]!) {
       data[field] = textcontroller[field]!.text;
     }
+
+    // Add the new log entry
     logs[date.toString()] = data;
+
+    // Save the updated logs back to SharedPreferences
     prefs.setString(selectedSport, jsonEncode(logs));
   }
 

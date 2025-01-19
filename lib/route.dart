@@ -19,10 +19,26 @@ class _RoutePageState extends State<RoutePage> {
   int pageIndex = 0;
   List<Widget> pages = [
     const MyHomePage(),
-    const StatisticsPage(),
     const MySportsScreenPage(),
     const ProfilePage(),
   ];
+  Color color = Colors.white;
+  Color color1 = Color(0xFF0B132B);
+  Color color2 = Color(0xFF1C2541);
+  Color color3 = Color(0xFF3C75C6);
+  Color color4 = Color(0xFF9ED6FF);
+  Color color5 = Color(0xFF56F4DC);
+  Color color6 = Color(0xFF72f6fb);
+  Color color7 = Color(0xFF060A18);
+  Color color8 = Color(0xFF3a506b);
+  Color color9 = Color(0xFFC91818);
+  Color color10 = Color(0xFFFF4D4F);
+  Color color11 = Color(0xFFFF7275);
+  Color color12 = Color(0xFFFFC4AB);
+  Color color13 = Color(0xFFFF8C8C);
+  Color color14 = Color(0xFFa31414);
+  Color color15 = Color(0xFF9BE4E3);
+
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +47,8 @@ class _RoutePageState extends State<RoutePage> {
         children: [
           pages[pageIndex], // Main content
           Positioned(
-              left: 20,
-              right: 20,
+              left: 10,
+              right: 10,
               bottom: 20,
               child: Padding(
                 padding: EdgeInsets.only(bottom: 30, top: 0),
@@ -56,7 +72,7 @@ class _RoutePageState extends State<RoutePage> {
                         child: Align(
                           alignment: Alignment.center,
                           child: BottomNavigationBar(
-                            backgroundColor: Colors.white,
+                            backgroundColor: Colors.black,
                             type: BottomNavigationBarType.fixed, // Ensures items are evenly spaced
                             selectedFontSize: 0, // Adjust font size for selected items
                             unselectedFontSize: 0,
@@ -69,44 +85,28 @@ class _RoutePageState extends State<RoutePage> {
                                     // color: pageIndex == 0 ? Colors.white : Colors.transparent, // Highlight the selected icon with a white background
                                     shape: BoxShape.circle,
                                   ),
-                                  padding: const EdgeInsets.all(8.0),
                                   child: Icon(
                                     Icons.home_outlined,
-                                    size: 24,
+                                    size: 32,
                                     // color: pageIndex == 0 ? Colors.black : Colors.white, // Adjust icon color
                                   ),
                                 ),
-                                label: "",
+                                label: "Home",
                               ),
-                              BottomNavigationBarItem(
-                                icon: Container(
-                                  decoration: BoxDecoration(
-                                    // color: pageIndex == 1 ? Colors.white : Colors.transparent,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Icon(
-                                    Icons.line_axis_outlined,
-                                    size: 24,
-                                    // color: pageIndex == 1 ? Colors.black : Colors.white,
-                                  ),
-                                ),
-                                label: "",
-                              ),
+
                               BottomNavigationBarItem(
                                 icon: Container(
                                   decoration: BoxDecoration(
                                     // color: pageIndex == 2 ? Colors.white : Colors.transparent,
                                     shape: BoxShape.circle,
                                   ),
-                                  padding: const EdgeInsets.all(8.0),
                                   child: Icon(
                                     Icons.add,
-                                    size: 24,
+                                    size: 32,
                                     // color: pageIndex == 2 ? Colors.black : Colors.white,
                                   ),
                                 ),
-                                label: "",
+                                label: "Log",
                               ),
                               BottomNavigationBarItem(
                                 icon: Container(
@@ -114,19 +114,18 @@ class _RoutePageState extends State<RoutePage> {
                                     // color: pageIndex == 3 ? Colors.white : Colors.transparent,
                                     shape: BoxShape.circle,
                                   ),
-                                  padding: const EdgeInsets.all(8.0),
                                   child: Icon(
                                     Icons.person_outline,
-                                    size: 24,
+                                    size: 32,
                                     // color: pageIndex == 3 ? Colors.black : Colors.white,
                                   ),
                                 ),
-                                label: "",
+                                label: "Profile",
                               ),
                             ],
                             currentIndex: pageIndex,
-                            selectedItemColor: Colors.red,
-                            unselectedItemColor: Colors.black,
+                            selectedItemColor: color4,
+                            unselectedItemColor: color,
                             onTap: (int index) {
                               setState(() {
                                 pageIndex = index;

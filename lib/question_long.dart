@@ -28,16 +28,20 @@ class _QuestionLongPageState extends State<QuestionLongPage> {
     String userPrompt = 'Hi my name is Michael';
     String instructionPrompt = "what is 1+1";
     print(instructionPrompt);
-    final request = ChatCompleteText(model: GptTurbo0631Model(), messages: [
-      Messages(
-        role: Role.user,
-        content: userPrompt,
-      ),
-      Messages(
-        role: Role.system,
-        content: instructionPrompt,
-      )
-    ]);
+    final request = ChatCompleteText(
+      model: GptTurbo0631Model(),
+      messages: [
+        {
+          "role": "user",
+          "content": userPrompt,
+        },
+        {
+          "role": "assistant",
+          "content": instructionPrompt,
+        }
+      ],
+    );
+
     ChatCTResponse? response = await _openAI.onChatCompletion(request: request);
     String result = response!.choices.first.message!.content.trim();
     print(result);

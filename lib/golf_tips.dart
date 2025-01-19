@@ -24,19 +24,21 @@ class _TipsPageState extends State<TipsPage> {
     final prefs = await SharedPreferences.getInstance();
     String userPrompt =
         'Can you rewrite ${prefs.getStringList("Improvements")} as one long string with bullet points';
-    final request = ChatCompleteText(model: GptTurbo0631Model(), messages: [
-      Messages(
-        role: Role.user,
-        content: userPrompt,
-      ),
-    ]);
+    final request = ChatCompleteText(
+      model: GptTurbo0631Model(),
+      messages: [
+        {
+          "role": "user",
+          "content": userPrompt,
+        }
+      ],
+    );
     ChatCTResponse? response = await _openAI.onChatCompletion(request: request);
     Tips = response!.choices.first.message!.content;
     setState(() {
       prefs.setString("tips", Tips!);
       isLoading = false;
     });
-    // print(result);
   }
 
   @override
@@ -56,18 +58,18 @@ class _TipsPageState extends State<TipsPage> {
       padding: const EdgeInsets.all(10),
       child: !isLoading
           ? ListView(
-              physics: ClampingScrollPhysics(),
-              shrinkWrap: true,
-              children: [
-                Text(Tips!),
-              ],
-            )
+        physics: ClampingScrollPhysics(),
+        shrinkWrap: true,
+        children: [
+          Text(Tips!),
+        ],
+      )
           : Center(
-              child: Container(
-                margin: const EdgeInsets.all(5),
-                child: CircularProgressIndicator(),
-              ),
-            ),
+        child: Container(
+          margin: const EdgeInsets.all(5),
+          child: CircularProgressIndicator(),
+        ),
+      ),
     );
   }
 }

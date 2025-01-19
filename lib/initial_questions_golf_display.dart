@@ -34,16 +34,19 @@ class _InitialQuestionsGolfDisplayPageState
     String instructionPrompt =
         "Base off the ${widget.questions} and ${widget.answers} received, provide three aspects of my game that I should be improving on. Please make sure that you only return a JSON format that look like this: {Improvements: <list of improvements>}. Ensure the JSON is valid and do not write anything before or after the JSON structure provided.";
     print(instructionPrompt);
-    final request = ChatCompleteText(model: GptTurbo0631Model(), messages: [
-      Messages(
-        role: Role.user,
-        content: userPrompt,
-      ),
-      Messages(
-        role: Role.system,
-        content: instructionPrompt,
-      )
-    ]);
+    final request = ChatCompleteText(
+      model: GptTurbo0631Model(),
+      messages: [
+        {
+          "role": "user",
+          "content": userPrompt,
+        },
+        {
+          "role": "system",
+          "content": instructionPrompt,
+        }
+      ],
+    );
     ChatCTResponse? response1 =
         await _openAI.onChatCompletion(request: request);
     String result = response1!.choices.first.message!.content.trim();

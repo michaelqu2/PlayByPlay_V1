@@ -19,6 +19,22 @@ class _RecommendChoicePageState extends State<RecommendChoicePagePage> {
   List<String>? sportsTC = [];
   String? _choice;
   String? _level;
+  Color color = Colors.white;
+  Color color1 = Color(0xFF0B132B);
+  Color color2 = Color(0xFF1C2541);
+  Color color3 = Color(0xFF3C75C6);
+  Color color4 = Color(0xFF9ED6FF);
+  Color color5 = Color(0xFF56F4DC);
+  Color color6 = Color(0xFF72f6fb);
+  Color color7 = Color(0xFF060A18);
+  Color color8 = Color(0xFF3a506b);
+  Color color9 = Color(0xFFC91818);
+  Color color10 = Color(0xFFFF4D4F);
+  Color color11 = Color(0xFFFF7275);
+  Color color12 = Color(0xFFFFC4AB);
+  Color color13 = Color(0xFFFF8C8C);
+  Color color14 = Color(0xFFa31414);
+  Color color15 = Color(0xFF9BE4E3);
 
   Future<void> loadUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -80,7 +96,7 @@ class _RecommendChoicePageState extends State<RecommendChoicePagePage> {
                           },
                           style: TextButton.styleFrom(
                             minimumSize: Size(350, 230),
-                            backgroundColor: Colors.greenAccent, // Background color
+                            backgroundColor: color4, // Background color
                             textStyle: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -90,7 +106,7 @@ class _RecommendChoicePageState extends State<RecommendChoicePagePage> {
                             ),
                           ),
                           child: const Text(
-                            "Short Test",
+                            "Questions Based Evaluation",
                             style: TextStyle(
                               fontSize: 12,
                             ),
@@ -115,7 +131,7 @@ class _RecommendChoicePageState extends State<RecommendChoicePagePage> {
                           },
                           style: TextButton.styleFrom(
                             minimumSize: Size(350, 230),
-                            backgroundColor: Colors.cyan, // Background color
+                            backgroundColor: color6, // Background color
                             textStyle: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -125,7 +141,7 @@ class _RecommendChoicePageState extends State<RecommendChoicePagePage> {
                             ),
                           ),
                           child: const Text(
-                            "Long Test",
+                            "Detailed Based Evaluation",
                             style: TextStyle(
                               fontSize: 12,
                             ),

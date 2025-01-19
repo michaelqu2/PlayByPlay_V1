@@ -19,35 +19,37 @@ class _QuestionLongTestPageState extends State<QuestionLongTestPage> {
     {"Category": "General Information", "Test/Measurement": "Name:"},
     {"Category": "", "Test/Measurement": "Age:"},
     {"Category": "", "Test/Measurement": "Gender:"},
-    {"Category": "", "Test/Measurement": "Height (cm/in):"},
-    {"Category": "", "Test/Measurement": "Weight (kg/lbs):"},
-    {"Category": "Physical Attributes", "Test/Measurement": "Push-Ups Test"},
-    {"Category": "", "Test/Measurement": "Squats Test"},
-    {"Category": "", "Test/Measurement": "Planks Test"},
-    {"Category": "", "Test/Measurement": "Running Performance"},
-    {"Category": "", "Test/Measurement": "Body Composition (BIA)"},
-    {
-      "Category": "Motor Skills and Coordination",
-      "Test/Measurement": "Reaction Time Test"
-    },
-    {"Category": "", "Test/Measurement": "Agility T-Test"},
-    {"Category": "", "Test/Measurement": "Illinois Agility Test"},
-    {"Category": "", "Test/Measurement": "Lateral Change of Direction Test"},
-    {"Category": "", "Test/Measurement": "Online Reaction Time Tests"},
-    {"Category": "", "Test/Measurement": "Jump and Landing Test"},
-    {"Category": "", "Test/Measurement": "One-Leg Stand Test"},
-    {"Category": "Physical Fitness", "Test/Measurement": "Cooper Test"},
-    {"Category": "", "Test/Measurement": "One-Rep Max"},
+    {"Category": "", "Test/Measurement": "Height (cm):"},
+    {"Category": "", "Test/Measurement": "Weight (lbs):"},
+
+    {"Category": "Muscular Strength", "Test/Measurement": "Max Bench Press (lbs)"},
+    {"Category": "", "Test/Measurement": "Max Squat (lbs)"},
     {"Category": "", "Test/Measurement": "Handgrip Strength"},
-    {"Category": "", "Test/Measurement": "Vertical Jump"},
-    {"Category": "", "Test/Measurement": "Sit and Reach Test"},
-    {"Category": "", "Test/Measurement": "Joint Range of Motion"},
-    {"Category": "", "Test/Measurement": "Functional Movement Screen"},
+
+    {"Category": "Muscular Endurance", "Test/Measurement": "Push-Up Test."},
+    {"Category": "", "Test/Measurement": "Sit-Up Test (1 min)"},
+    {"Category": "", "Test/Measurement": "Planks Test"},
+
+    {"Category": "Muscular Power", "Test/Measurement": "Vertical Jump Height"},
     {"Category": "", "Test/Measurement": "Standing Broad Jump"},
-    {"Category": "", "Test/Measurement": "Wall Sit Test"},
+
+    {"Category": "Agility", "Test/Measurement": "100 Meter Sprint:"},
+    {"Category": "", "Test/Measurement": "400 Meter Time"},
     {"Category": "", "Test/Measurement": "5-10-5 Shuttle Run"},
-    {"Category": "", "Test/Measurement": "Talk Test"},
-    {"Category": "", "Test/Measurement": "HIIT Performance"},
+
+    {"Category": "Aerobic Capacity", "Test/Measurement": "VO2 Max Test"},
+    {"Category": "", "Test/Measurement": "1 Mile Run"},
+    {"Category": "", "Test/Measurement": "Talk Without Breath Test"},
+
+    {"Category": "Flexibility", "Test/Measurement": "Sit and Reach Test"},
+
+    {"Category": "Balance and Stability", "Test/Measurement": "One-Leg Balance Test"},
+
+    {"Category": "Reaction Time Test", "Test/Measurement": "Hand Reaction Time."},
+    {"Category": "", "Test/Measurement": "Foot Reaction Time"},
+
+
+
   ];
 
   final Map<String, TextEditingController> _controllers = {};
@@ -59,6 +61,7 @@ class _QuestionLongTestPageState extends State<QuestionLongTestPage> {
       _controllers[row['Test/Measurement']!] = TextEditingController();
     }
   }
+
 
   @override
   void dispose() {
@@ -83,11 +86,18 @@ class _QuestionLongTestPageState extends State<QuestionLongTestPage> {
             ElevatedButton(
               onPressed: () {
                 _saveData();
-                _printTestData();
                 Navigator.pop(context,
                     MaterialPageRoute(builder: (context) => const QuestionLongChoicePage()));
               },
               child: Text('Save'), // The child parameter should be here
+            ),
+            ElevatedButton(
+              onPressed: () {
+                _printTestData();
+                Navigator.pop(context,
+                    MaterialPageRoute(builder: (context) => const QuestionLongChoicePage()));
+              },
+              child: Text('print'), // The child parameter should be here
             ),
           ],
         ),
@@ -240,7 +250,30 @@ class DataSheet extends StatelessWidget {
       "Gender:": "Select your gender.",
       "Height (cm/in):": "Measure your height in centimeters or inches.",
       "Weight (kg/lbs):": "Measure your weight in kilograms or pounds.",
-      // ... add other instructions here ...
+      "Push-Ups Test": "Perform as many push-ups as possible without stopping.",
+      "Squats Test": "Perform as many squats as possible within a set time frame.",
+      "Planks Test": "Hold a plank position for as long as possible while maintaining proper form.",
+      "Running Performance": "Complete a running test, such as a timed mile or sprint, and record your performance.",
+      "Body Composition (BIA)": "Use a body composition analyzer to measure your body fat percentage and muscle mass.",
+      "Reaction Time Test": "Use a reaction time tool to measure the time it takes for you to respond to a visual or auditory stimulus.",
+      "Agility T-Test": "Perform the T-test, running between cones arranged in a 'T' shape as quickly as possible.",
+      "Illinois Agility Test": "Run through an obstacle course of cones laid out in a specific pattern to assess agility.",
+      "Lateral Change of Direction Test": "Move side-to-side as quickly as possible between markers in this test of lateral agility.",
+      "Online Reaction Time Tests": "Complete an online test to measure your reaction time to visual or auditory cues.",
+      "Jump and Landing Test": "Perform a vertical or broad jump, then focus on landing with good balance and control.",
+      "One-Leg Stand Test": "Stand on one leg for as long as possible to assess your balance and stability.",
+      "Cooper Test": "Run as far as possible in 12 minutes; typically performed on a track or treadmill.",
+      "One-Rep Max": "Perform a single maximum lift for a given exercise (e.g., bench press, squat).",
+      "Handgrip Strength": "Use a handgrip dynamometer to measure your grip strength.",
+      "Vertical Jump": "Perform a vertical jump and measure the height you reach.",
+      "Sit and Reach Test": "Sit with your legs extended and reach as far forward as possible to see if you can touch toe",
+      "Joint Range of Motion": "Use a goniometer or similar tool to measure the range of motion of a joint (e.g., knee, elbow).",
+      "Functional Movement Screen": "Perform a series of functional movements to assess mobility, stability, and coordination.",
+      "Standing Broad Jump": "Jump as far forward as possible from a standing position.",
+      "Wall Sit Test": "Hold a seated position with your back against the wall for as long as possible.",
+      "5-10-5 Shuttle Run": "Run 5 yards, touch the line, run back 10 yards, and then return 5 yards as fast as possible.",
+      "Talk Test": "Perform aerobic exercise to assess how long you can talk without stopping",
+      "HIIT Performance": "Complete a high-intensity interval training (HIIT) session and measure your performance (e.g., number of intervals completed, intensity).",
     };
 
     final instruction = instructions[test];

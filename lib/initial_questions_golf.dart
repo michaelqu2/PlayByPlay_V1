@@ -32,21 +32,23 @@ class _InitialQuestionsGolfPageState extends State<InitialQuestionsGolfPage> {
     String instructionPrompt =
         "can you ask me 4 questions base off my information that will help to accurately determine my level in a more specific ways. And these questions should also determines my biggest weakness in my game that need to be improved. Please make sure that you only return a JSON format that look like this: {questions: <list of questions>}. Ensure the JSON is valid and do not write anything before or after the JSON structure provided.";
     print(instructionPrompt);
-    final request = ChatCompleteText(model: GptTurbo0631Model(), messages: [
-      Messages(
-        role: Role.user,
-        content: userPrompt,
-      ),
-      Messages(
-        role: Role.system,
-        content: instructionPrompt,
-      )
-    ]);
+    final request = ChatCompleteText(
+      model: GptTurbo0631Model(),
+      messages: [
+        {
+          "role": "user",
+          "content": userPrompt,
+        },
+        {
+          "role": "system",
+          "content": instructionPrompt,
+        }
+      ],
+    );
     ChatCTResponse? response = await _openAI.onChatCompletion(request: request);
     String result = response!.choices.first.message!.content.trim();
     print(result);
     getQuestions(result);
-    // print(result);
   }
 
   getQuestions(String results) {
@@ -76,19 +78,19 @@ class _InitialQuestionsGolfPageState extends State<InitialQuestionsGolfPage> {
   Future<void> showAlertDialogue(BuildContext context) {
     return showDialog(context: context, builder: (context) {
       return AlertDialog(
-        content: const SingleChildScrollView(
-          child: ListBody(
-            children: <Widget>[
-              Text("There was an error! Rerun?")
-            ],
+          content: const SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text("There was an error! Rerun?")
+              ],
+            ),
           ),
-        ),
-        actions: <Widget>[
-          TextButton(
-              onPressed: () {
-                _handleInitialMessage();
-              }, child: const Text("Run Again"))
-        ]
+          actions: <Widget>[
+            TextButton(
+                onPressed: () {
+                  _handleInitialMessage();
+                }, child: const Text("Run Again"))
+          ]
       );
     });
   }
