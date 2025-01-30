@@ -496,57 +496,57 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
                 SizedBox(height: 15),
-                Padding(
-                  padding: const EdgeInsets.only(right: 15, left: 15),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    child: Column(
-                      children: [
-                        ListTile(
-                          leading:
-                              Icon(Icons.fitness_center, color: Colors.black),
-                          title: Text(
-                            'Physical activity',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          subtitle: Text('2 days ago'),
-                          trailing: Icon(Icons.chevron_right),
-                          onTap: () {
-                            // Action for button
-                          },
-                        ),
-                        Divider(),
-                        ListTile(
-                          leading: Icon(Icons.analytics, color: Colors.black),
-                          title: Text(
-                            'Statistics',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          subtitle: Text('This year: 109 kilometers'),
-                          trailing: Icon(Icons.chevron_right),
-                          onTap: () {
-                            // Action for button
-                          },
-                        ),
-                        Divider(),
-                        ListTile(
-                          leading: Icon(Icons.map, color: Colors.black),
-                          title: Text(
-                            'Analysis',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          subtitle: Text('7'),
-                          trailing: Icon(Icons.chevron_right),
-                          onTap: () {
-                            // Action for button
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.only(right: 15, left: 15),
+                //   child: Container(
+                //     decoration: BoxDecoration(
+                //       borderRadius: BorderRadius.circular(25),
+                //     ),
+                //     child: Column(
+                //       children: [
+                //         ListTile(
+                //           leading:
+                //               Icon(Icons.fitness_center, color: Colors.black),
+                //           title: Text(
+                //             'Physical activity',
+                //             style: TextStyle(fontWeight: FontWeight.bold),
+                //           ),
+                //           subtitle: Text('2 days ago'),
+                //           trailing: Icon(Icons.chevron_right),
+                //           onTap: () {
+                //             // Action for button
+                //           },
+                //         ),
+                //         Divider(),
+                //         ListTile(
+                //           leading: Icon(Icons.analytics, color: Colors.black),
+                //           title: Text(
+                //             'Statistics',
+                //             style: TextStyle(fontWeight: FontWeight.bold),
+                //           ),
+                //           subtitle: Text('This year: 109 kilometers'),
+                //           trailing: Icon(Icons.chevron_right),
+                //           onTap: () {
+                //             // Action for button
+                //           },
+                //         ),
+                //         Divider(),
+                //         ListTile(
+                //           leading: Icon(Icons.map, color: Colors.black),
+                //           title: Text(
+                //             'Analysis',
+                //             style: TextStyle(fontWeight: FontWeight.bold),
+                //           ),
+                //           subtitle: Text('7'),
+                //           trailing: Icon(Icons.chevron_right),
+                //           onTap: () {
+                //             // Action for button
+                //           },
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
                 SizedBox(height: 200)
               ],
             ),
