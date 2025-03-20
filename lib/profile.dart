@@ -496,6 +496,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
                 SizedBox(height: 15),
+
+
                 // Padding(
                 //   padding: const EdgeInsets.only(right: 15, left: 15),
                 //   child: Container(
