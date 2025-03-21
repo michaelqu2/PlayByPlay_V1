@@ -76,7 +76,7 @@ class _QuestionShortDisplayPageState extends State<QuestionShortDisplayPage> {
 
   Future<void> _fetchQuestions(String userPrompt, String instructionPrompt) async {
     final request = ChatCompleteText(
-      model: GptTurbo0631Model(),
+      model: Gpt4OChatModel(),
       messages: [
         {
           "role": "user",
