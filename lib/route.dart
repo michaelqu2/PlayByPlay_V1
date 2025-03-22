@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import '/route.dart';
-import '/profile.dart';
-import '/home.dart';
+import 'route.dart';
+import 'profile/profile.dart';
+import 'home.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import '/logging_display.dart';
+import 'unusedFiles/logging_display.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:app_v1/my_sports_screen.dart';
-import 'statistics.dart';
+import 'package:app_v1/logs/my_sports_screen.dart';
+import 'unusedFiles/statistics.dart';
 
 class RoutePage extends StatefulWidget {
   const RoutePage({super.key});

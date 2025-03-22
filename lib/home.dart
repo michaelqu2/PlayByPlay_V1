@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import '/profile.dart';
-import '/initial_questions_golf.dart';
-import '/selection.dart';
-import 'recommend_choice.dart';
-import 'golf_tips.dart';
-import 'machine_learning.dart';
+import 'evaluateYourLevel/evaluateYourLevel.dart';
+import 'recommendation/recommend_choice.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
-import 'saved_data_display.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -322,66 +318,72 @@ class _MyHomePageState extends State<MyHomePage> {
                                         Expanded(
                                           child: Column(
                                             children: [
-                                              for (int index = 0;
-                                                  index < sportsTC!.length;
-                                                  index++) ...[
-                                                Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      vertical: 8,
-                                                      horizontal: 5),
-                                                  child: Row(
-                                                    children: [
-                                                      Expanded(
-                                                        child: Text(
-                                                          sportsTC![index],
-                                                          style: TextStyle(
-                                                            fontSize: 12,
-                                                            color: color,
-                                                            fontWeight:
-                                                                FontWeight.w600,
+                                              if (sportsTC != null)
+                                                for (int index = 0;
+                                                    index < sportsTC!.length;
+                                                    index++) ...[
+                                                  Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        vertical: 8,
+                                                        horizontal: 5),
+                                                    child: Row(
+                                                      children: [
+                                                        Expanded(
+                                                          child: Text(
+                                                            sportsTC![index],
+                                                            style: TextStyle(
+                                                              fontSize: 12,
+                                                              color: color,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                            ),
                                                           ),
                                                         ),
-                                                      ),
-                                                      Container(
-                                                        padding: EdgeInsets
-                                                            .symmetric(
-                                                                horizontal: 4,
-                                                                vertical: 0),
-                                                        height: 20,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          border: Border.all(
-                                                            color:
-                                                                colors[index],
+                                                        Container(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal: 4,
+                                                                  vertical: 0),
+                                                          height: 20,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            border: Border.all(
+                                                              color:
+                                                                  colors[index],
+                                                            ),
+                                                            color: Colors.black
+                                                                .withOpacity(
+                                                                    0.5),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        4),
                                                           ),
-                                                          color: Colors.black
-                                                              .withOpacity(0.5),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(4),
-                                                        ),
-                                                        alignment:
-                                                            Alignment.center,
-                                                        child: Text(
-                                                          'can\'t tell',
-                                                          style: TextStyle(
-                                                            fontSize: 8,
-                                                            color: Colors.white,
-                                                            fontWeight:
-                                                                FontWeight.w600,
+                                                          alignment:
+                                                              Alignment.center,
+                                                          child: Text(
+                                                            'can\'t tell',
+                                                            style: TextStyle(
+                                                              fontSize: 8,
+                                                              color:
+                                                                  Colors.white,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                            ),
                                                           ),
                                                         ),
-                                                      ),
-                                                    ],
+                                                      ],
+                                                    ),
                                                   ),
-                                                ),
-                                                Divider(
-                                                  thickness: 1.5,
-                                                  color: Colors.grey[300],
-                                                  height: 0,
-                                                ),
-                                              ]
+                                                  Divider(
+                                                    thickness: 1.5,
+                                                    color: Colors.grey[300],
+                                                    height: 0,
+                                                  ),
+                                                ]
                                             ],
                                           ),
                                         ),
@@ -520,70 +522,70 @@ class _MyHomePageState extends State<MyHomePage> {
                                       ],
                                     ),
                                   ),
-                                  Container(
-                                      margin:
-                                          EdgeInsets.only(bottom: 10, right: 8),
-                                      width: 170,
-                                      decoration: BoxDecoration(
-                                        color: color2,
-                                        border: Border.all(
-                                          color: color3,
-                                          width: 0,
-                                        ),
-                                        borderRadius: BorderRadius.circular(16),
-                                        // image: DecorationImage(
-                                        //   image: AssetImage("assets/sports_background9.jpg"), // Replace with your image path
-                                        //   fit: BoxFit.cover,
-                                        //   colorFilter: ColorFilter.mode(
-                                        //     Colors.black.withOpacity(0.40), // Adjust the opacity here
-                                        //     BlendMode.darken, // Mode to blend the image and color
-                                        //   ), // This adjusts how the image fits the container
-                                        // ),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.grey.withOpacity(0.5),
-                                            spreadRadius: 5,
-                                            blurRadius: 7,
-                                            offset: Offset(0,
-                                                3), // Position of the shadow (x, y)
-                                          ),
-                                        ],
-                                      ),
-                                      child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            TextButton(
-                                              onPressed: () {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        SavedDataDisplayPage(),
-                                                  ),
-                                                );
-                                              },
-                                              style: TextButton.styleFrom(
-                                                minimumSize: Size(168, 43),
-                                                maximumSize: Size(170, 45),
-                                                textStyle: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                              child: Text(
-                                                textAlign: TextAlign.right,
-                                                "Prediction",
-                                                style: TextStyle(
-                                                  fontSize: 15,
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            ),
-                                          ])),
+                                  // Container(
+                                  //     margin:
+                                  //         EdgeInsets.only(bottom: 10, right: 8),
+                                  //     width: 170,
+                                  //     decoration: BoxDecoration(
+                                  //       color: color2,
+                                  //       border: Border.all(
+                                  //         color: color3,
+                                  //         width: 0,
+                                  //       ),
+                                  //       borderRadius: BorderRadius.circular(16),
+                                  //       // image: DecorationImage(
+                                  //       //   image: AssetImage("assets/sports_background9.jpg"), // Replace with your image path
+                                  //       //   fit: BoxFit.cover,
+                                  //       //   colorFilter: ColorFilter.mode(
+                                  //       //     Colors.black.withOpacity(0.40), // Adjust the opacity here
+                                  //       //     BlendMode.darken, // Mode to blend the image and color
+                                  //       //   ), // This adjusts how the image fits the container
+                                  //       // ),
+                                  //       boxShadow: [
+                                  //         BoxShadow(
+                                  //           color: Colors.grey.withOpacity(0.5),
+                                  //           spreadRadius: 5,
+                                  //           blurRadius: 7,
+                                  //           offset: Offset(0,
+                                  //               3), // Position of the shadow (x, y)
+                                  //         ),
+                                  //       ],
+                                  //     ),
+                                  //     child: Column(
+                                  //         crossAxisAlignment:
+                                  //             CrossAxisAlignment.center,
+                                  //         mainAxisAlignment:
+                                  //             MainAxisAlignment.center,
+                                  //         children: [
+                                  //           TextButton(
+                                  //             onPressed: () {
+                                  //               Navigator.push(
+                                  //                 context,
+                                  //                 MaterialPageRoute(
+                                  //                   builder: (context) =>
+                                  //                       SavedDataDisplayPage(),
+                                  //                 ),
+                                  //               );
+                                  //             },
+                                  //             style: TextButton.styleFrom(
+                                  //               minimumSize: Size(168, 43),
+                                  //               maximumSize: Size(170, 45),
+                                  //               textStyle: TextStyle(
+                                  //                 fontSize: 16,
+                                  //                 fontWeight: FontWeight.bold,
+                                  //               ),
+                                  //             ),
+                                  //             child: Text(
+                                  //               textAlign: TextAlign.right,
+                                  //               "Prediction",
+                                  //               style: TextStyle(
+                                  //                 fontSize: 15,
+                                  //                 color: Colors.white,
+                                  //                 fontWeight: FontWeight.bold,
+                                  //               ),
+                                  //             ),
+                                  //           ),
+                                  //         ])),
                                 ],
                               ),
                             ),

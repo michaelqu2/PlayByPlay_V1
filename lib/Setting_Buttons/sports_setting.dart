@@ -1,7 +1,9 @@
+import 'package:app_v1/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:app_v1/setting.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:app_v1/selection.dart';
+import 'package:app_v1/evaluateYourLevel/evaluateYourLevel.dart';
+
 class SportsSettingPage extends StatefulWidget {
   const SportsSettingPage({super.key});
 
@@ -10,40 +12,30 @@ class SportsSettingPage extends StatefulWidget {
 }
 
 class _SportsSettingPageState extends State<SportsSettingPage> {
-  List<TextEditingController> sportsTC = [TextEditingController()];
+  bool _isSwimmingSelected = false;
+  bool _isGolfSelected = false;
 
   Future<void> loadUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      sportsTC = (prefs.getStringList('sports') ?? []).map((sport) {
-        return TextEditingController(text: sport);
-      }).toList();
-    });
+    List<String>? sports = prefs.getStringList('sports');
+    if (sports != null) {
+      setState(() {
+        _isSwimmingSelected = sports!.contains('Swimming');
+        _isGolfSelected = sports!.contains('Golf');
+      });
+    }
   }
 
   Future<void> saveUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setStringList(
-      'sports',
-      sportsTC
-          .map((controller) => controller.text.trim())
-          .where((sport) => sport.isNotEmpty)
-          .toList(),
-    );
-  }
-
-  void AddSportField() {
-    setState(() {
-      sportsTC.add(TextEditingController());
-    });
-  }
-
-  void RemoveSportField(int index) {
-    setState(() {
-      if (sportsTC.length > 1) {
-        sportsTC.removeAt(index);
-      }
-    });
+    List<String> sports = [];
+    if (_isSwimmingSelected) {
+      sports.add('Swimming');
+    }
+    if (_isGolfSelected) {
+      sports.add('Golf');
+    }
+    prefs.setStringList('sports', sports);
   }
 
   @override
@@ -56,71 +48,72 @@ class _SportsSettingPageState extends State<SportsSettingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.grey,
+        iconTheme: const IconThemeData(color: Colors.white),
+        backgroundColor: color2,
       ),
-      body: ListView(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(top: 20),
-            child: Card(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 8),
-                child: Column(children: [
-                  const Text("Sport"),
-                  for (int i = 0; i < sportsTC.length; i++)
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: 8.0, left: 8.0, right: 8.0, bottom: 8.0),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: TextField(
-                              keyboardType: TextInputType.text,
-                              decoration: InputDecoration(
-                                  counterText: ' ',
-                                  hintText: "Sport ${i + 1}",
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20))),
-                              controller: sportsTC[i],
-                            ),
-                          ),
-
-                          IconButton(
-                              onPressed: () => RemoveSportField(i),
-                              icon: const Icon(Icons.delete)),
-
-                        ],
-                      ),
-                    ),
-                  Align(
-                    alignment: Alignment.center,
-                    child: IconButton(
-                        onPressed: AddSportField,
-                        icon: const Icon(Icons.add)),
-                  )
-                ]),
-              ),
-            ),
+      body: Stack(
+        children: [
+          Image.asset(
+            'assets/sports_background2.jpg',
+            fit: BoxFit.cover,
+            height: double.infinity,
+            width: double.infinity,
+            alignment: Alignment.center,
           ),
-          TextButton(
-            style: TextButton.styleFrom(
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.black,
-              alignment: Alignment.center,
-            ),
-            onPressed: () {
-              print("save sports setting");
-              saveUserInfo();
-              Navigator.pop(context,
-                  MaterialPageRoute(builder: (context) => const SettingPage()));
-
-            },
-            child: const Text(
-              "Save",
-              style: TextStyle(
-                fontSize: 12,
+          ListView(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        CheckboxListTile(
+                          title: Text("Swimming"),
+                          value: _isSwimmingSelected,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              _isSwimmingSelected = value ?? false;
+                            });
+                          },
+                        ),
+                        CheckboxListTile(
+                          title: Text("Golf"),
+                          value: _isGolfSelected,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              _isGolfSelected = value ?? false;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
-            ),
+              TextButton(
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.black,
+                  alignment: Alignment.center,
+                ),
+                onPressed: () {
+                  print("save sports setting");
+                  saveUserInfo();
+                  Navigator.pop(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SettingPage()));
+                },
+                child: const Text(
+                  "Save",
+                  style: TextStyle(
+                    fontSize: 12,
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),
